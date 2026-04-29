@@ -1,0 +1,15 @@
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Application\obj\Debug\net8.0\CommunicationService.Application.csproj.AssemblyReference.cache
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Application\obj\Debug\net8.0\CommunicationService.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Application\obj\Debug\net8.0\CommunicationService.Application.AssemblyInfoInputs.cache
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Application\obj\Debug\net8.0\CommunicationService.Application.AssemblyInfo.cs
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Application\obj\Debug\net8.0\CommunicationService.Application.csproj.CoreCompileInputs.cache
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Application\bin\Debug\net8.0\CommunicationService.Application.deps.json
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Application\bin\Debug\net8.0\CommunicationService.Application.dll
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Application\bin\Debug\net8.0\CommunicationService.Application.pdb
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Application\bin\Debug\net8.0\CommunicationService.Domain.dll
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Application\bin\Debug\net8.0\CommunicationService.Domain.pdb
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Application\obj\Debug\net8.0\Communic.7690B828.Up2Date
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Application\obj\Debug\net8.0\CommunicationService.Application.dll
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Application\obj\Debug\net8.0\refint\CommunicationService.Application.dll
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Application\obj\Debug\net8.0\CommunicationService.Application.pdb
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Application\obj\Debug\net8.0\ref\CommunicationService.Application.dll

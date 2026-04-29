@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CommunicationService.Api/CommunicationService.Api.csproj" />
+    <Project Path="src/CommunicationService.Application/CommunicationService.Application.csproj" />
+    <Project Path="src/CommunicationService.Domain/CommunicationService.Domain.csproj" />
+    <Project Path="src/CommunicationService.Infrastructure/CommunicationService.Infrastructure.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,17 @@
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\obj\Debug\net8.0\CommunicationService.Infrastructure.csproj.AssemblyReference.cache
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\obj\Debug\net8.0\CommunicationService.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\obj\Debug\net8.0\CommunicationService.Infrastructure.AssemblyInfoInputs.cache
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\obj\Debug\net8.0\CommunicationService.Infrastructure.AssemblyInfo.cs
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\obj\Debug\net8.0\CommunicationService.Infrastructure.csproj.CoreCompileInputs.cache
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\bin\Debug\net8.0\CommunicationService.Infrastructure.deps.json
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\bin\Debug\net8.0\CommunicationService.Infrastructure.dll
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\bin\Debug\net8.0\CommunicationService.Infrastructure.pdb
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\bin\Debug\net8.0\CommunicationService.Application.dll
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\bin\Debug\net8.0\CommunicationService.Domain.dll
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\bin\Debug\net8.0\CommunicationService.Domain.pdb
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\bin\Debug\net8.0\CommunicationService.Application.pdb
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\obj\Debug\net8.0\Communic.6DDDF1B4.Up2Date
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\obj\Debug\net8.0\CommunicationService.Infrastructure.dll
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\obj\Debug\net8.0\refint\CommunicationService.Infrastructure.dll
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\obj\Debug\net8.0\CommunicationService.Infrastructure.pdb
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\obj\Debug\net8.0\ref\CommunicationService.Infrastructure.dll

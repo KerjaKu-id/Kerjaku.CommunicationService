@@ -1,0 +1,11 @@
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Domain\bin\Debug\net8.0\CommunicationService.Domain.deps.json
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Domain\bin\Debug\net8.0\CommunicationService.Domain.dll
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Domain\bin\Debug\net8.0\CommunicationService.Domain.pdb
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Domain\obj\Debug\net8.0\CommunicationService.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Domain\obj\Debug\net8.0\CommunicationService.Domain.AssemblyInfoInputs.cache
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Domain\obj\Debug\net8.0\CommunicationService.Domain.AssemblyInfo.cs
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Domain\obj\Debug\net8.0\CommunicationService.Domain.csproj.CoreCompileInputs.cache
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Domain\obj\Debug\net8.0\CommunicationService.Domain.dll
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Domain\obj\Debug\net8.0\refint\CommunicationService.Domain.dll
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Domain\obj\Debug\net8.0\CommunicationService.Domain.pdb
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Domain\obj\Debug\net8.0\ref\CommunicationService.Domain.dll
