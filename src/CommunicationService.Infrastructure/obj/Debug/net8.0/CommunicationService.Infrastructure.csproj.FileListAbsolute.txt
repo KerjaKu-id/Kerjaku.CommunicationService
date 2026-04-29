@@ -15,3 +15,6 @@ D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastr
 D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\obj\Debug\net8.0\refint\CommunicationService.Infrastructure.dll
 D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\obj\Debug\net8.0\CommunicationService.Infrastructure.pdb
 D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\obj\Debug\net8.0\ref\CommunicationService.Infrastructure.dll
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\obj\Debug\net8.0\CommunicationService.Infrastructure.sourcelink.json
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\bin\Debug\net8.0\CommunicationService.Infrastructure.runtimeconfig.json
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Infrastructure\obj\Debug\net8.0\CommunicationService.Infrastructure.genruntimeconfig.cache

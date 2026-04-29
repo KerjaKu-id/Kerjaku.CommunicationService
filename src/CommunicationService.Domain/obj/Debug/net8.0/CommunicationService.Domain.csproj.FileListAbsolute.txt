@@ -9,3 +9,4 @@ D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Domain\o
 D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Domain\obj\Debug\net8.0\refint\CommunicationService.Domain.dll
 D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Domain\obj\Debug\net8.0\CommunicationService.Domain.pdb
 D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Domain\obj\Debug\net8.0\ref\CommunicationService.Domain.dll
+D:\coding kocak\notepad++\magang\communication\src\CommunicationService.Domain\obj\Debug\net8.0\CommunicationService.Domain.sourcelink.json

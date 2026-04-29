@@ -19,7 +19,8 @@ Summary: dotnet build CommunicationService.slnx succeeded.
 - [x] Create and Run Task
 Summary: No task needed for this project.
 
-- [ ] Launch the Project
+- [x] Launch the Project
+Summary: docker compose up --build started; service is running and listening on port 8080.
 
 - [x] Ensure Documentation is Complete
 Summary: README added and copilot instructions cleaned.
