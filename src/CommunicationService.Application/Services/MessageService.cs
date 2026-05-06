@@ -65,10 +65,15 @@ public class MessageService : IMessageService
             throw new ValidationException("Sender is not a participant of the room.");
         }
 
+        var recipientIds = room.Participants
+            .Where(p => p.UserId != request.SenderId)
+            .Select(p => p.UserId)
+            .ToArray();
+
         var message = new Message(request.RoomId, request.SenderId, request.Type, content, now);
-        foreach (var participant in room.Participants.Where(p => p.UserId != request.SenderId))
+        foreach (var recipientId in recipientIds)
         {
-            message.AddStatus(participant.UserId, MessageDeliveryStatus.Sent, now);
+            message.AddStatus(recipientId, MessageDeliveryStatus.Sent, now);
         }
 
         await _messageRepository.AddAsync(message, cancellationToken);
@@ -77,7 +82,14 @@ public class MessageService : IMessageService
 
         var dto = MessageMapper.ToDto(message);
         await _eventPublisher.PublishAsync(
-            new MessageSentEvent(message.Id, message.ChatRoomId, message.SenderId, message.Type, message.CreatedAt),
+            new MessageSentEvent(
+                message.Id,
+                message.ChatRoomId,
+                message.SenderId,
+                message.Type,
+                message.CreatedAt,
+                content,
+                recipientIds),
             cancellationToken);
 
         return dto;

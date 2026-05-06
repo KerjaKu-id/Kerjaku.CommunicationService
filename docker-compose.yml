@@ -1,5 +1,21 @@
 version: "3.9"
 services:
+  api-gateway:
+    image: nginx:1.27-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - communication-service
+      - identity-service
+      - marketplace-service
+      - order-service
+      - notification-service
+    networks:
+      - microservices-net
+    restart: unless-stopped
+
   communication-service:
     build:
       context: .
@@ -19,6 +35,36 @@ services:
     depends_on:
       - sqlserver
       - rabbitmq
+    networks:
+      - microservices-net
+
+  identity-service:
+    image: identity-service:latest
+    ports:
+      - "8081:8081"
+    networks:
+      - microservices-net
+
+  marketplace-service:
+    image: marketplace-service:latest
+    ports:
+      - "8082:8082"
+    networks:
+      - microservices-net
+
+  order-service:
+    image: order-service:latest
+    ports:
+      - "8083:8083"
+    networks:
+      - microservices-net
+
+  notification-service:
+    image: notification-service:latest
+    ports:
+      - "8084:8084"
+    networks:
+      - microservices-net
 
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -30,12 +76,20 @@ services:
       - "1433:1433"
     volumes:
       - sqlserver-data:/var/opt/mssql
+    networks:
+      - microservices-net
 
   rabbitmq:
     image: rabbitmq:3-management
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      - microservices-net
 
 volumes:
   sqlserver-data:
+
+networks:
+  microservices-net:
+    name: microservices-net

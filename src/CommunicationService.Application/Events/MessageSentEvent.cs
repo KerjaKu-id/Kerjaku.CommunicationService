@@ -7,4 +7,6 @@ public sealed record MessageSentEvent(
     Guid RoomId,
     Guid SenderId,
     MessageType Type,
-    DateTimeOffset CreatedAt);
+    DateTimeOffset CreatedAt,
+    string Content,
+    Guid[] RecipientIds);

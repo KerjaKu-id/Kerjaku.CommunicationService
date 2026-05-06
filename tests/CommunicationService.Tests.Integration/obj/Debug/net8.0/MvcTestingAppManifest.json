@@ -1,0 +1,6 @@
+{
+  "CommunicationService.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "D:\\coding kocak\\notepad++\\magang\\communication\\src\\CommunicationService.Api",
+  "CommunicationService.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "D:\\coding kocak\\notepad++\\magang\\communication\\src\\CommunicationService.Application",
+  "CommunicationService.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "D:\\coding kocak\\notepad++\\magang\\communication\\src\\CommunicationService.Domain",
+  "CommunicationService.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "D:\\coding kocak\\notepad++\\magang\\communication\\src\\CommunicationService.Infrastructure"
+}

@@ -93,6 +93,8 @@ Client events:
 - `MessageReadEvent`
 - `ChatExpiredEvent`
 
+`MessageSentEvent` includes `Content` and `RecipientIds` to allow the Notification Service to trigger recipient notifications without additional lookups.
+
 ## Run with Docker
 ```bash
 docker compose up --build

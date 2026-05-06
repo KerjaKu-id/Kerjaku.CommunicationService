@@ -5,4 +5,8 @@
     <Project Path="src/CommunicationService.Domain/CommunicationService.Domain.csproj" />
     <Project Path="src/CommunicationService.Infrastructure/CommunicationService.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CommunicationService.Tests.Unit/CommunicationService.Tests.Unit.csproj" />
+    <Project Path="tests/CommunicationService.Tests.Integration/CommunicationService.Tests.Integration.csproj" />
+  </Folder>
 </Solution>
