@@ -1,8 +1,6 @@
-using CommunicationService.Application.DTOs;
 using CommunicationService.Application.DTOs.Requests;
 using CommunicationService.Domain.Enums;
 using CommunicationService.Tests.Integration.TestUtilities;
-using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommunicationService.Tests.Integration.Gateway;
@@ -28,17 +26,16 @@ public class GatewaySignalRTests
         var user2 = Guid.NewGuid();
         var room = await _api.CreateRoomAsync(user1, user2);
 
-        await using var senderConnection = CreateHubConnection();
-        await using var receiverConnection = CreateHubConnection();
+        await using var sender = new GatewaySignalRClient(_fixture.ChatBaseUri);
+        await using var receiver = new GatewaySignalRClient(_fixture.ChatBaseUri);
 
-        var receivedMessage = new TaskCompletionSource<MessageDto>(TaskCreationOptions.RunContinuationsAsynchronously);
-        receiverConnection.On<MessageDto>("ReceiveMessage", message => receivedMessage.TrySetResult(message));
+        await sender.ConnectAsync();
+        await receiver.ConnectAsync();
 
-        await senderConnection.StartAsync();
-        await receiverConnection.StartAsync();
+        await sender.JoinRoomAsync(room.Id, user1);
+        await receiver.JoinRoomAsync(room.Id, user2);
 
-        await senderConnection.InvokeAsync("JoinRoom", room.Id, user1);
-        await receiverConnection.InvokeAsync("JoinRoom", room.Id, user2);
+        var receivedMessage = receiver.ExpectReceiveMessageAsync(TimeSpan.FromSeconds(10));
 
         var request = new SendMessageRequest
         {
@@ -48,9 +45,9 @@ public class GatewaySignalRTests
             Content = "hello"
         };
 
-        await senderConnection.InvokeAsync("SendMessage", request);
+        await sender.SendMessageAsync(request);
 
-        var message = await receivedMessage.Task.WaitAsync(TimeSpan.FromSeconds(10));
+        var message = await receivedMessage;
         Assert.Equal(room.Id, message.RoomId);
         Assert.Equal(user1, message.SenderId);
     }
@@ -62,20 +59,16 @@ public class GatewaySignalRTests
         var user2 = Guid.NewGuid();
         var room = await _api.CreateRoomAsync(user1, user2);
 
-        await using var senderConnection = CreateHubConnection();
-        await using var receiverConnection = CreateHubConnection();
+        await using var sender = new GatewaySignalRClient(_fixture.ChatBaseUri);
+        await using var receiver = new GatewaySignalRClient(_fixture.ChatBaseUri);
 
-        var receivedMessage = new TaskCompletionSource<MessageDto>(TaskCreationOptions.RunContinuationsAsynchronously);
-        receiverConnection.On<MessageDto>("ReceiveMessage", message => receivedMessage.TrySetResult(message));
+        await sender.ConnectAsync();
+        await receiver.ConnectAsync();
 
-        var readStatus = new TaskCompletionSource<MessageStatusDto>(TaskCreationOptions.RunContinuationsAsynchronously);
-        senderConnection.On<MessageStatusDto>("MessageRead", status => readStatus.TrySetResult(status));
+        await sender.JoinRoomAsync(room.Id, user1);
+        await receiver.JoinRoomAsync(room.Id, user2);
 
-        await senderConnection.StartAsync();
-        await receiverConnection.StartAsync();
-
-        await senderConnection.InvokeAsync("JoinRoom", room.Id, user1);
-        await receiverConnection.InvokeAsync("JoinRoom", room.Id, user2);
+        var receivedMessage = receiver.ExpectReceiveMessageAsync(TimeSpan.FromSeconds(10));
 
         var request = new SendMessageRequest
         {
@@ -85,11 +78,12 @@ public class GatewaySignalRTests
             Content = "hello"
         };
 
-        await senderConnection.InvokeAsync("SendMessage", request);
-        var message = await receivedMessage.Task.WaitAsync(TimeSpan.FromSeconds(10));
+        await sender.SendMessageAsync(request);
+        var message = await receivedMessage;
 
-        await receiverConnection.InvokeAsync("MarkRead", message.Id, user2);
-        var status = await readStatus.Task.WaitAsync(TimeSpan.FromSeconds(10));
+        var readStatus = sender.ExpectMessageReadAsync(TimeSpan.FromSeconds(10));
+        await receiver.MarkReadAsync(message.Id, user2);
+        var status = await readStatus;
 
         Assert.Equal(message.Id, status.MessageId);
         Assert.Equal(user2, status.RecipientId);
@@ -103,17 +97,5 @@ public class GatewaySignalRTests
             TimeSpan.FromSeconds(10));
 
         Assert.True(updated);
-    }
-
-    private HubConnection CreateHubConnection()
-    {
-        var hubUri = new Uri(_fixture.ChatBaseUri, "hubs/chat");
-
-        return new HubConnectionBuilder()
-            .WithUrl(hubUri, options =>
-            {
-                options.Transports = HttpTransportType.WebSockets;
-            })
-            .Build();
     }
 }

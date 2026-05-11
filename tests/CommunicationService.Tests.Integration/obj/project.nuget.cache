@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5KImEy1TnaQ=",
+  "dgSpecHash": "PKY2g7CAgOM=",
   "success": true,
-  "projectFilePath": "D:\\coding kocak\\notepad++\\magang\\communication\\tests\\CommunicationService.Tests.Integration\\CommunicationService.Tests.Integration.csproj",
+  "projectFilePath": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\tests\\CommunicationService.Tests.Integration\\CommunicationService.Tests.Integration.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Narendra\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Narendra\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
@@ -110,9 +110,9 @@
     "C:\\Users\\Narendra\\.nuget\\packages\\xunit.extensibility.core\\2.9.3\\xunit.extensibility.core.2.9.3.nupkg.sha512",
     "C:\\Users\\Narendra\\.nuget\\packages\\xunit.extensibility.execution\\2.9.3\\xunit.extensibility.execution.2.9.3.nupkg.sha512",
     "C:\\Users\\Narendra\\.nuget\\packages\\xunit.runner.visualstudio\\3.1.5\\xunit.runner.visualstudio.3.1.5.nupkg.sha512",
-    "C:\\Users\\Narendra\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.24\\microsoft.aspnetcore.app.ref.8.0.24.nupkg.sha512",
     "C:\\Users\\Narendra\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.24\\microsoft.netcore.app.ref.8.0.24.nupkg.sha512",
-    "C:\\Users\\Narendra\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.24\\microsoft.windowsdesktop.app.ref.8.0.24.nupkg.sha512"
+    "C:\\Users\\Narendra\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.24\\microsoft.windowsdesktop.app.ref.8.0.24.nupkg.sha512",
+    "C:\\Users\\Narendra\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.24\\microsoft.aspnetcore.app.ref.8.0.24.nupkg.sha512"
   ],
   "logs": []
 }

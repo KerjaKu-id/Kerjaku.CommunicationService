@@ -50,7 +50,11 @@ public class GatewayMessagesTests
         var response = await _api.GetMessagesAsync(room.Id, pageNumber: 1, pageSize: 1);
 
         Assert.Single(response.Data.Items);
+        Assert.Equal(1, response.Data.PageNumber);
+        Assert.Equal(1, response.Data.PageSize);
         Assert.True(response.Data.HasNext);
+        Assert.Contains(response.Links, link => link.Rel == "self");
+        Assert.Contains(response.Links, link => link.Rel == "next");
 
         var messageCount = await _db.CountMessagesAsync(room.Id);
         Assert.Equal(2, messageCount);

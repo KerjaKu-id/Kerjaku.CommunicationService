@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "oQPqqMqxtmY=",
+  "dgSpecHash": "sSdslhE/R40=",
   "success": true,
-  "projectFilePath": "D:\\coding kocak\\notepad++\\magang\\communication\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj",
+  "projectFilePath": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Narendra\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.24\\microsoft.netcore.app.ref.8.0.24.nupkg.sha512",
     "C:\\Users\\Narendra\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.24\\microsoft.windowsdesktop.app.ref.8.0.24.nupkg.sha512",

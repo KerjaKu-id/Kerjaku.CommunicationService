@@ -4702,11 +4702,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\coding kocak\\notepad++\\magang\\communication\\src\\CommunicationService.Infrastructure\\CommunicationService.Infrastructure.csproj",
+      "projectUniqueName": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Infrastructure\\CommunicationService.Infrastructure.csproj",
       "projectName": "CommunicationService.Infrastructure",
-      "projectPath": "D:\\coding kocak\\notepad++\\magang\\communication\\src\\CommunicationService.Infrastructure\\CommunicationService.Infrastructure.csproj",
+      "projectPath": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Infrastructure\\CommunicationService.Infrastructure.csproj",
       "packagesPath": "C:\\Users\\Narendra\\.nuget\\packages\\",
-      "outputPath": "D:\\coding kocak\\notepad++\\magang\\communication\\src\\CommunicationService.Infrastructure\\obj\\",
+      "outputPath": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -4725,11 +4725,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\coding kocak\\notepad++\\magang\\communication\\src\\CommunicationService.Application\\CommunicationService.Application.csproj": {
-              "projectPath": "D:\\coding kocak\\notepad++\\magang\\communication\\src\\CommunicationService.Application\\CommunicationService.Application.csproj"
+            "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Application\\CommunicationService.Application.csproj": {
+              "projectPath": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Application\\CommunicationService.Application.csproj"
             },
-            "D:\\coding kocak\\notepad++\\magang\\communication\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj": {
-              "projectPath": "D:\\coding kocak\\notepad++\\magang\\communication\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj"
+            "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj": {
+              "projectPath": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj"
             }
           }
         }

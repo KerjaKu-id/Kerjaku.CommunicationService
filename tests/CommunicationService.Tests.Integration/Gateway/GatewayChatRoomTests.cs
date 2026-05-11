@@ -36,8 +36,13 @@ public class GatewayChatRoomTests
 
         var payload = await response.Content.ReadFromJsonAsync<ApiResponse<ChatRoomDto>>();
         Assert.NotNull(payload);
+        Assert.False(payload!.Data.IsTemporary);
+        Assert.Equal(2, payload.Data.Participants.Count);
+        Assert.Contains(payload.Links, link => link.Rel == "self");
+        Assert.Contains(payload.Links, link => link.Rel == "send_message");
+        Assert.Contains(payload.Links, link => link.Rel == "get_messages");
 
-        var roomId = payload!.Data.Id;
+        var roomId = payload.Data.Id;
         var room = await _db.GetChatRoomAsync(roomId);
         Assert.NotNull(room);
         Assert.False(room!.IsTemporary);

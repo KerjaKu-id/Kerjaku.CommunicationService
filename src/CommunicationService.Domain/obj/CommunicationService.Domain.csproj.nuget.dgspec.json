@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\coding kocak\\notepad++\\magang\\communication\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj": {}
+    "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj": {}
   },
   "projects": {
-    "D:\\coding kocak\\notepad++\\magang\\communication\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj": {
+    "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\coding kocak\\notepad++\\magang\\communication\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj",
+        "projectUniqueName": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj",
         "projectName": "CommunicationService.Domain",
-        "projectPath": "D:\\coding kocak\\notepad++\\magang\\communication\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj",
+        "projectPath": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj",
         "packagesPath": "C:\\Users\\Narendra\\.nuget\\packages\\",
-        "outputPath": "D:\\coding kocak\\notepad++\\magang\\communication\\src\\CommunicationService.Domain\\obj\\",
+        "outputPath": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

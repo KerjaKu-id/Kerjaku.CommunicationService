@@ -1,6 +1,7 @@
 using System.Net.Http;
 using CommunicationService.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using RabbitMQ.Client;
 
 namespace CommunicationService.Tests.Integration.TestUtilities;
 
@@ -14,6 +15,7 @@ public sealed class GatewayTestFixture : IAsyncLifetime
     {
         ChatBaseUri = ResolveChatBaseUri();
         ConnectionString = ResolveConnectionString();
+        RabbitMq = ResolveRabbitMqSettings();
 
         _startupTimeout = TimeSpan.FromSeconds(GetInt("GATEWAY_STARTUP_TIMEOUT_SECONDS", 30));
         _pollInterval = TimeSpan.FromSeconds(GetInt("GATEWAY_POLL_INTERVAL_SECONDS", 2));
@@ -27,6 +29,7 @@ public sealed class GatewayTestFixture : IAsyncLifetime
 
     public Uri ChatBaseUri { get; }
     public string ConnectionString { get; }
+    public GatewayRabbitMqSettings RabbitMq { get; }
 
     public HttpClient Client => _client;
 
@@ -71,6 +74,41 @@ public sealed class GatewayTestFixture : IAsyncLifetime
         }
 
         return false;
+    }
+
+    public async Task WaitForRabbitMqAsync()
+    {
+        var deadline = DateTimeOffset.UtcNow.Add(_startupTimeout);
+        Exception? lastException = null;
+
+        while (DateTimeOffset.UtcNow < deadline)
+        {
+            try
+            {
+                var factory = new ConnectionFactory
+                {
+                    HostName = RabbitMq.HostName,
+                    Port = RabbitMq.Port,
+                    UserName = RabbitMq.UserName,
+                    Password = RabbitMq.Password
+                };
+
+                using var connection = factory.CreateConnection();
+                using var channel = connection.CreateModel();
+                channel.ExchangeDeclare(RabbitMq.ExchangeName, ExchangeType.Topic, durable: true, autoDelete: false);
+                return;
+            }
+            catch (Exception ex)
+            {
+                lastException = ex;
+            }
+
+            await Task.Delay(_pollInterval);
+        }
+
+        throw new InvalidOperationException(
+            "RabbitMQ not reachable for integration tests.",
+            lastException);
     }
 
     private async Task WaitForGatewayAsync()
@@ -155,6 +193,39 @@ public sealed class GatewayTestFixture : IAsyncLifetime
         }
 
         return "Server=localhost,1433;Database=CommunicationDb;User Id=sa;Password=Your_password123;TrustServerCertificate=True;Encrypt=False;";
+    }
+
+    private static GatewayRabbitMqSettings ResolveRabbitMqSettings()
+    {
+        var host = GetEnvOrDefault("localhost", "RabbitMq__HostName", "RABBITMQ_HOST");
+        var port = GetInt("RabbitMq__Port", 5672);
+        var portOverride = GetInt("RABBITMQ_PORT", port);
+        var user = GetEnvOrDefault("guest", "RabbitMq__UserName", "RABBITMQ_USERNAME", "RABBITMQ_USER");
+        var password = GetEnvOrDefault("guest", "RabbitMq__Password", "RABBITMQ_PASSWORD");
+        var exchange = GetEnvOrDefault("communication.events", "RabbitMq__ExchangeName", "RABBITMQ_EXCHANGE");
+
+        return new GatewayRabbitMqSettings
+        {
+            HostName = host,
+            Port = portOverride,
+            UserName = user,
+            Password = password,
+            ExchangeName = exchange
+        };
+    }
+
+    private static string GetEnvOrDefault(string fallback, params string[] names)
+    {
+        foreach (var name in names)
+        {
+            var value = Environment.GetEnvironmentVariable(name);
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                return value;
+            }
+        }
+
+        return fallback;
     }
 
     private static int GetInt(string name, int fallback)

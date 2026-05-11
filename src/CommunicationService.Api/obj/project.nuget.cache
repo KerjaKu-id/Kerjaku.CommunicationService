@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "CjaGxyWiI/Q=",
+  "dgSpecHash": "fjUvbT2ZmO8=",
   "success": true,
-  "projectFilePath": "D:\\coding kocak\\notepad++\\magang\\communication\\src\\CommunicationService.Api\\CommunicationService.Api.csproj",
+  "projectFilePath": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Api\\CommunicationService.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Narendra\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Narendra\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
