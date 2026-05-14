@@ -9,7 +9,7 @@ Production-ready Communication Service for one-to-one chat with clean architectu
 - Message status tracking: sent, delivered, read
 - Real-time messaging via SignalR
 - Event publishing via RabbitMQ (MessageSent, MessageRead, ChatExpired)
-- Pagination for message retrieval
+- Pagination for message retrieval b b
 
 ## Architecture
 - **Domain**: Core entities and enums
