@@ -312,6 +312,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "EventStore.Client.Grpc.Streams": {
+              "target": "Package",
+              "version": "[23.3.9, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.4, )"

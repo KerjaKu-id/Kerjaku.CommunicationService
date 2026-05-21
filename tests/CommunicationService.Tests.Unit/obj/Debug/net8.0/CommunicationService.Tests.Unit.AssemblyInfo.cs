@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CommunicationService.Tests.Unit")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e8705c8a77bc5e5d58b14e8dd0b5db41b18cdacc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e31cf565fc34731cd7e3b0ff40eb3488f1eb27c2")]
 [assembly: System.Reflection.AssemblyProductAttribute("CommunicationService.Tests.Unit")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CommunicationService.Tests.Unit")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
