@@ -10,13 +10,14 @@ public class Message
     {
     }
 
-    public Message(Guid chatRoomId, Guid senderId, MessageType type, string content, DateTimeOffset createdAt)
+    public Message(Guid chatRoomId, Guid senderId, MessageType type, string content, DateTimeOffset createdAt, string? metadata = null)
     {
         Id = Guid.NewGuid();
         ChatRoomId = chatRoomId;
         SenderId = senderId;
         Type = type;
         Content = content;
+        Metadata = metadata;
         CreatedAt = createdAt;
     }
 
@@ -25,6 +26,7 @@ public class Message
     public Guid SenderId { get; private set; }
     public MessageType Type { get; private set; }
     public string Content { get; private set; } = string.Empty;
+    public string? Metadata { get; private set; }
     public DateTimeOffset CreatedAt { get; private set; }
 
     public ChatRoom ChatRoom { get; private set; } = null!;

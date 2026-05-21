@@ -12,15 +12,24 @@ namespace CommunicationService.Application.Services;
 public class ChatRoomService : IChatRoomService
 {
     private readonly IChatRoomRepository _chatRoomRepository;
+    private readonly IMessageRepository _messageRepository;
+    private readonly IMessageStatusRepository _messageStatusRepository;
+    private readonly IUserShadowRepository _userShadowRepository;
     private readonly TemporaryChatOptions _temporaryChatOptions;
     private readonly IDateTimeProvider _dateTimeProvider;
 
     public ChatRoomService(
         IChatRoomRepository chatRoomRepository,
+        IMessageRepository messageRepository,
+        IMessageStatusRepository messageStatusRepository,
+        IUserShadowRepository userShadowRepository,
         TemporaryChatOptions temporaryChatOptions,
         IDateTimeProvider dateTimeProvider)
     {
         _chatRoomRepository = chatRoomRepository;
+        _messageRepository = messageRepository;
+        _messageStatusRepository = messageStatusRepository;
+        _userShadowRepository = userShadowRepository;
         _temporaryChatOptions = temporaryChatOptions;
         _dateTimeProvider = dateTimeProvider;
     }
@@ -73,6 +82,41 @@ public class ChatRoomService : IChatRoomService
         return ChatRoomMapper.ToDto(room);
     }
 
+    public async Task<ChatRoomDto> GetRoomDetailsAsync(Guid roomId, Guid userId, CancellationToken cancellationToken)
+    {
+        var room = await _chatRoomRepository.GetByIdAsync(roomId, cancellationToken);
+        if (room == null)
+        {
+            throw new NotFoundException("Chat room not found.");
+        }
+
+        if (room.HasExpired(_dateTimeProvider.UtcNow))
+        {
+            throw new ResourceExpiredException("Chat room has expired.");
+        }
+
+        var summary = await BuildSummaryAsync(room, userId, cancellationToken);
+        return ChatRoomMapper.ToDto(room, summary);
+    }
+
+    public async Task<IReadOnlyCollection<ChatRoomDto>> GetRoomsForUserAsync(Guid userId, CancellationToken cancellationToken)
+    {
+        var rooms = await _chatRoomRepository.GetByParticipantAsync(userId, cancellationToken);
+        if (rooms.Count == 0)
+        {
+            return Array.Empty<ChatRoomDto>();
+        }
+
+        var results = new List<ChatRoomDto>(rooms.Count);
+        foreach (var room in rooms)
+        {
+            var summary = await BuildSummaryAsync(room, userId, cancellationToken);
+            results.Add(ChatRoomMapper.ToDto(room, summary));
+        }
+
+        return results;
+    }
+
     private DateTimeOffset ResolveExpiration(CreateChatRoomRequest request, DateTimeOffset now)
     {
         DateTimeOffset expiresAt;
@@ -95,5 +139,31 @@ public class ChatRoomService : IChatRoomService
         }
 
         return expiresAt;
+    }
+
+    private async Task<ChatRoomSummary> BuildSummaryAsync(ChatRoom room, Guid viewerId, CancellationToken cancellationToken)
+    {
+        var otherPartyId = room.Participants
+            .Select(p => p.UserId)
+            .FirstOrDefault(id => id != viewerId);
+
+        var userMap = await _userShadowRepository.GetByIdsAsync(new[] { otherPartyId }, cancellationToken);
+        userMap.TryGetValue(otherPartyId, out var otherParty);
+
+        var lastMessage = await _messageRepository.GetLatestByRoomIdAsync(room.Id, cancellationToken);
+        var unreadCount = await _messageStatusRepository.CountUnreadByRoomAsync(room.Id, viewerId, cancellationToken);
+
+        var status = room.HasExpired(_dateTimeProvider.UtcNow) ? "expired" : "active";
+
+        return new ChatRoomSummary(
+            RoomType: "customer_partner",
+            Status: status,
+            OtherPartyId: otherParty?.Id,
+            OtherPartyName: otherParty?.DisplayName ?? otherParty?.Email,
+            OtherPartyAvatar: otherParty?.AvatarUrl,
+            OtherPartyEmail: otherParty?.Email,
+            LastMessage: lastMessage?.Content,
+            LastMessageAt: lastMessage?.CreatedAt,
+            UnreadCount: unreadCount);
     }
 }

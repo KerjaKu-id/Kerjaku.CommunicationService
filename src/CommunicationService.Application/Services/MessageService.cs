@@ -8,6 +8,7 @@ using CommunicationService.Application.Exceptions;
 using CommunicationService.Application.Mapping;
 using CommunicationService.Domain.Entities;
 using CommunicationService.Domain.Enums;
+using System.Text.Json;
 
 namespace CommunicationService.Application.Services;
 
@@ -20,19 +21,22 @@ public class MessageService : IMessageService
     private readonly IMessageStatusRepository _messageStatusRepository;
     private readonly IEventPublisher _eventPublisher;
     private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IUserShadowRepository _userShadowRepository;
 
     public MessageService(
         IChatRoomRepository chatRoomRepository,
         IMessageRepository messageRepository,
         IMessageStatusRepository messageStatusRepository,
         IEventPublisher eventPublisher,
-        IDateTimeProvider dateTimeProvider)
+        IDateTimeProvider dateTimeProvider,
+        IUserShadowRepository userShadowRepository)
     {
         _chatRoomRepository = chatRoomRepository;
         _messageRepository = messageRepository;
         _messageStatusRepository = messageStatusRepository;
         _eventPublisher = eventPublisher;
         _dateTimeProvider = dateTimeProvider;
+        _userShadowRepository = userShadowRepository;
     }
 
     public async Task<MessageDto> SendMessageAsync(SendMessageRequest request, CancellationToken cancellationToken)
@@ -43,7 +47,9 @@ public class MessageService : IMessageService
             throw new ValidationException("Message content is required.");
         }
 
-        if (request.Type == MessageType.Image && !Uri.TryCreate(content, UriKind.Absolute, out _))
+        var resolvedType = MessageTypeMapper.FromApiValue(request.MessageType, request.Type);
+
+        if (resolvedType == MessageType.Image && !Uri.TryCreate(content, UriKind.Absolute, out _))
         {
             throw new ValidationException("Image messages must use a valid URL.");
         }
@@ -70,7 +76,11 @@ public class MessageService : IMessageService
             .Select(p => p.UserId)
             .ToArray();
 
-        var message = new Message(request.RoomId, request.SenderId, request.Type, content, now);
+        var metadataJson = request.Metadata is null
+            ? null
+            : JsonSerializer.Serialize(request.Metadata, new JsonSerializerOptions(JsonSerializerDefaults.Web));
+
+        var message = new Message(request.RoomId, request.SenderId, resolvedType, content, now, metadataJson);
         foreach (var recipientId in recipientIds)
         {
             message.AddStatus(recipientId, MessageDeliveryStatus.Sent, now);
@@ -80,13 +90,19 @@ public class MessageService : IMessageService
         await _messageStatusRepository.AddRangeAsync(message.Statuses, cancellationToken);
         await _messageRepository.SaveChangesAsync(cancellationToken);
 
-        var dto = MessageMapper.ToDto(message);
+        var sender = await _userShadowRepository.GetByIdAsync(message.SenderId, cancellationToken);
+        var dto = MessageMapper.ToDto(
+            message,
+            MessageTypeMapper.ToApiValue(resolvedType),
+            DeserializeMetadata(metadataJson),
+            sender?.DisplayName ?? sender?.Email,
+            sender?.AvatarUrl);
         await _eventPublisher.PublishAsync(
             new MessageSentEvent(
                 message.Id,
                 message.ChatRoomId,
                 message.SenderId,
-                message.Type,
+                resolvedType,
                 message.CreatedAt,
                 content,
                 recipientIds),
@@ -123,10 +139,21 @@ public class MessageService : IMessageService
         }
 
         var page = await _messageRepository.GetByRoomIdPagedAsync(roomId, pageNumber, pageSize, cancellationToken);
+        var senderIds = page.Items.Select(item => item.SenderId).Distinct().ToArray();
+        var senderMap = await _userShadowRepository.GetByIdsAsync(senderIds, cancellationToken);
 
         return new PagedResult<MessageDto>
         {
-            Items = page.Items.Select(MessageMapper.ToDto).ToArray(),
+            Items = page.Items.Select(message =>
+            {
+                senderMap.TryGetValue(message.SenderId, out var sender);
+                return MessageMapper.ToDto(
+                    message,
+                    MessageTypeMapper.ToApiValue(message.Type),
+                    DeserializeMetadata(message.Metadata),
+                    sender?.DisplayName ?? sender?.Email,
+                    sender?.AvatarUrl);
+            }).ToArray(),
             PageNumber = page.PageNumber,
             PageSize = page.PageSize,
             HasNext = page.HasNext
@@ -173,5 +200,22 @@ public class MessageService : IMessageService
             cancellationToken);
 
         return dto;
+    }
+
+    private static object? DeserializeMetadata(string? metadataJson)
+    {
+        if (string.IsNullOrWhiteSpace(metadataJson))
+        {
+            return null;
+        }
+
+        try
+        {
+            return JsonSerializer.Deserialize<object>(metadataJson, new JsonSerializerOptions(JsonSerializerDefaults.Web));
+        }
+        catch
+        {
+            return null;
+        }
     }
 }

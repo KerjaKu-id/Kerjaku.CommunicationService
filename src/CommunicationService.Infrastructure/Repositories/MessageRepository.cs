@@ -27,6 +27,15 @@ public class MessageRepository : IMessageRepository
             .FirstOrDefaultAsync(message => message.Id == messageId, cancellationToken);
     }
 
+    public Task<Message?> GetLatestByRoomIdAsync(Guid roomId, CancellationToken cancellationToken)
+    {
+        return _dbContext.Messages
+            .AsNoTracking()
+            .Where(message => message.ChatRoomId == roomId)
+            .OrderByDescending(message => message.CreatedAt)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
     public async Task<PagedResult<Message>> GetByRoomIdPagedAsync(
         Guid roomId,
         int pageNumber,

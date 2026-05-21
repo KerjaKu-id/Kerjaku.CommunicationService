@@ -74,6 +74,23 @@ namespace CommunicationService.Infrastructure.Data.Migrations
                     b.ToTable("chat_rooms", (string)null);
                 });
 
+            modelBuilder.Entity("CommunicationService.Domain.Entities.EventStoreCheckpoint", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<long>("LastEventNumber")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("eventstore_checkpoints", (string)null);
+                });
+
             modelBuilder.Entity("CommunicationService.Domain.Entities.Message", b =>
                 {
                     b.Property<Guid>("Id")
@@ -90,6 +107,9 @@ namespace CommunicationService.Infrastructure.Data.Migrations
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Metadata")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("SenderId")
                         .HasColumnType("uniqueidentifier");
@@ -136,6 +156,49 @@ namespace CommunicationService.Infrastructure.Data.Migrations
                     b.HasIndex("RecipientId", "Status");
 
                     b.ToTable("message_status", (string)null);
+                });
+
+            modelBuilder.Entity("CommunicationService.Domain.Entities.UserShadow", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AvatarUrl")
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
+
+                    b.Property<string>("DisplayName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("FirebaseUid")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Role")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("Status")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email");
+
+                    b.HasIndex("FirebaseUid");
+
+                    b.ToTable("users_shadow", (string)null);
                 });
 
             modelBuilder.Entity("CommunicationService.Domain.Entities.ChatParticipant", b =>

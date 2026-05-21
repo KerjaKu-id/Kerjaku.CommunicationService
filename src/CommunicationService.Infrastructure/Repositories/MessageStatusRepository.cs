@@ -30,6 +30,20 @@ public class MessageStatusRepository : IMessageStatusRepository
             .FirstOrDefaultAsync(status => status.MessageId == messageId && status.RecipientId == recipientId, cancellationToken);
     }
 
+    public async Task<int> CountUnreadByRoomAsync(Guid roomId, Guid recipientId, CancellationToken cancellationToken)
+    {
+        return await _dbContext.MessageStatuses
+            .Join(
+                _dbContext.Messages,
+                status => status.MessageId,
+                message => message.Id,
+                (status, message) => new { status, message })
+            .Where(entry => entry.message.ChatRoomId == roomId)
+            .Where(entry => entry.status.RecipientId == recipientId)
+            .Where(entry => entry.status.Status != CommunicationService.Domain.Enums.MessageDeliveryStatus.Read)
+            .CountAsync(cancellationToken);
+    }
+
     public Task SaveChangesAsync(CancellationToken cancellationToken)
     {
         return _dbContext.SaveChangesAsync(cancellationToken);

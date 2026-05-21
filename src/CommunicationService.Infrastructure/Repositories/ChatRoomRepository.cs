@@ -27,6 +27,16 @@ public class ChatRoomRepository : IChatRoomRepository
             .FirstOrDefaultAsync(room => room.Id == roomId, cancellationToken);
     }
 
+    public async Task<IReadOnlyList<ChatRoom>> GetByParticipantAsync(Guid userId, CancellationToken cancellationToken)
+    {
+        return await _dbContext.ChatRooms
+            .AsNoTracking()
+            .Include(room => room.Participants)
+            .Where(room => room.Participants.Any(p => p.UserId == userId))
+            .OrderByDescending(room => room.CreatedAt)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<IReadOnlyList<ChatRoom>> GetExpiredAsync(DateTimeOffset now, CancellationToken cancellationToken)
     {
         return await _dbContext.ChatRooms

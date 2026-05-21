@@ -335,13 +335,21 @@ public class MessageServiceTests
         messageRepository = new Mock<IMessageRepository>();
         statusRepository = new Mock<IMessageStatusRepository>();
         eventPublisher = new Mock<IEventPublisher>();
+        var userShadowRepository = new Mock<IUserShadowRepository>();
+        userShadowRepository
+            .Setup(r => r.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((UserShadow?)null);
+        userShadowRepository
+            .Setup(r => r.GetByIdsAsync(It.IsAny<IEnumerable<Guid>>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Dictionary<Guid, UserShadow>());
 
         return new MessageService(
             chatRoomRepository.Object,
             messageRepository.Object,
             statusRepository.Object,
             eventPublisher.Object,
-            dateTimeProvider);
+            dateTimeProvider,
+            userShadowRepository.Object);
     }
 
     private static MessageService CreateService(
@@ -354,13 +362,21 @@ public class MessageServiceTests
         messageRepository = new Mock<IMessageRepository>();
         statusRepository = new Mock<IMessageStatusRepository>();
         eventPublisher = new Mock<IEventPublisher>();
+        var userShadowRepository = new Mock<IUserShadowRepository>();
+        userShadowRepository
+            .Setup(r => r.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((UserShadow?)null);
+        userShadowRepository
+            .Setup(r => r.GetByIdsAsync(It.IsAny<IEnumerable<Guid>>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Dictionary<Guid, UserShadow>());
 
         return new MessageService(
             chatRoomRepository.Object,
             messageRepository.Object,
             statusRepository.Object,
             eventPublisher.Object,
-            dateTimeProvider);
+            dateTimeProvider,
+            userShadowRepository.Object);
     }
 
     private static MessageService CreateService(
@@ -370,11 +386,20 @@ public class MessageServiceTests
         Mock<IEventPublisher> eventPublisher,
         FakeDateTimeProvider dateTimeProvider)
     {
+        var userShadowRepository = new Mock<IUserShadowRepository>();
+        userShadowRepository
+            .Setup(r => r.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((UserShadow?)null);
+        userShadowRepository
+            .Setup(r => r.GetByIdsAsync(It.IsAny<IEnumerable<Guid>>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Dictionary<Guid, UserShadow>());
+
         return new MessageService(
             chatRoomRepository.Object,
             messageRepository.Object,
             statusRepository.Object,
             eventPublisher.Object,
-            dateTimeProvider);
+            dateTimeProvider,
+            userShadowRepository.Object);
     }
 }

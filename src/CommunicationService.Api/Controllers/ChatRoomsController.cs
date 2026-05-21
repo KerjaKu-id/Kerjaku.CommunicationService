@@ -30,10 +30,34 @@ public class ChatRoomsController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = room.Id }, response);
     }
 
-    [HttpGet("{id:guid}")]
-    public async Task<ActionResult<ApiResponse<ChatRoomDto>>> GetById(Guid id, CancellationToken cancellationToken)
+    [HttpGet]
+    public async Task<ActionResult<ApiResponse<IReadOnlyCollection<ChatRoomDto>>>> GetForUser(
+        [FromQuery] Guid userId,
+        CancellationToken cancellationToken)
     {
-        var room = await _chatRoomService.GetRoomAsync(id, cancellationToken);
+        if (userId == Guid.Empty)
+        {
+            return BadRequest("userId is required.");
+        }
+
+        var rooms = await _chatRoomService.GetRoomsForUserAsync(userId, cancellationToken);
+        var response = new ApiResponse<IReadOnlyCollection<ChatRoomDto>>
+        {
+            Data = rooms
+        };
+
+        return Ok(response);
+    }
+
+    [HttpGet("{id:guid}")]
+    public async Task<ActionResult<ApiResponse<ChatRoomDto>>> GetById(
+        Guid id,
+        [FromQuery] Guid? userId,
+        CancellationToken cancellationToken)
+    {
+        var room = userId.HasValue && userId.Value != Guid.Empty
+            ? await _chatRoomService.GetRoomDetailsAsync(id, userId.Value, cancellationToken)
+            : await _chatRoomService.GetRoomAsync(id, cancellationToken);
         var response = new ApiResponse<ChatRoomDto>
         {
             Data = room,

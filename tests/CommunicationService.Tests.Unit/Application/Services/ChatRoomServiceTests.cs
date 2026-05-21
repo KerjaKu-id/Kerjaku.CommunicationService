@@ -15,8 +15,14 @@ public class ChatRoomServiceTests
     public async Task CreateRoomAsync_Throws_WhenNotEnoughParticipants()
     {
         var repo = new Mock<IChatRoomRepository>();
+        var messageRepo = new Mock<IMessageRepository>();
+        var statusRepo = new Mock<IMessageStatusRepository>();
+        var userShadowRepo = new Mock<IUserShadowRepository>();
         var service = new ChatRoomService(
             repo.Object,
+            messageRepo.Object,
+            statusRepo.Object,
+            userShadowRepo.Object,
             new TemporaryChatOptions { DefaultTtlHours = 4 },
             new FakeDateTimeProvider(new DateTimeOffset(2026, 4, 30, 0, 0, 0, TimeSpan.Zero)));
 
@@ -32,8 +38,14 @@ public class ChatRoomServiceTests
     public async Task CreateRoomAsync_Throws_WhenParticipantsNotUnique()
     {
         var repo = new Mock<IChatRoomRepository>();
+        var messageRepo = new Mock<IMessageRepository>();
+        var statusRepo = new Mock<IMessageStatusRepository>();
+        var userShadowRepo = new Mock<IUserShadowRepository>();
         var service = new ChatRoomService(
             repo.Object,
+            messageRepo.Object,
+            statusRepo.Object,
+            userShadowRepo.Object,
             new TemporaryChatOptions { DefaultTtlHours = 4 },
             new FakeDateTimeProvider(new DateTimeOffset(2026, 4, 30, 0, 0, 0, TimeSpan.Zero)));
 
@@ -54,10 +66,16 @@ public class ChatRoomServiceTests
             .Returns(Task.CompletedTask);
         repo.Setup(r => r.SaveChangesAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
+        var messageRepo = new Mock<IMessageRepository>();
+        var statusRepo = new Mock<IMessageStatusRepository>();
+        var userShadowRepo = new Mock<IUserShadowRepository>();
 
         var now = new DateTimeOffset(2026, 4, 30, 0, 0, 0, TimeSpan.Zero);
         var service = new ChatRoomService(
             repo.Object,
+            messageRepo.Object,
+            statusRepo.Object,
+            userShadowRepo.Object,
             new TemporaryChatOptions { DefaultTtlHours = 6 },
             new FakeDateTimeProvider(now));
 
@@ -79,9 +97,15 @@ public class ChatRoomServiceTests
     public async Task CreateRoomAsync_Throws_WhenExpirationIsInPast()
     {
         var repo = new Mock<IChatRoomRepository>();
+        var messageRepo = new Mock<IMessageRepository>();
+        var statusRepo = new Mock<IMessageStatusRepository>();
+        var userShadowRepo = new Mock<IUserShadowRepository>();
         var now = new DateTimeOffset(2026, 4, 30, 10, 0, 0, TimeSpan.Zero);
         var service = new ChatRoomService(
             repo.Object,
+            messageRepo.Object,
+            statusRepo.Object,
+            userShadowRepo.Object,
             new TemporaryChatOptions { DefaultTtlHours = 4 },
             new FakeDateTimeProvider(now));
 
@@ -101,9 +125,15 @@ public class ChatRoomServiceTests
         var repo = new Mock<IChatRoomRepository>();
         repo.Setup(r => r.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((ChatRoom?)null);
+        var messageRepo = new Mock<IMessageRepository>();
+        var statusRepo = new Mock<IMessageStatusRepository>();
+        var userShadowRepo = new Mock<IUserShadowRepository>();
 
         var service = new ChatRoomService(
             repo.Object,
+            messageRepo.Object,
+            statusRepo.Object,
+            userShadowRepo.Object,
             new TemporaryChatOptions { DefaultTtlHours = 4 },
             new FakeDateTimeProvider(new DateTimeOffset(2026, 4, 30, 0, 0, 0, TimeSpan.Zero)));
 
@@ -118,9 +148,15 @@ public class ChatRoomServiceTests
         var repo = new Mock<IChatRoomRepository>();
         repo.Setup(r => r.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(room);
+        var messageRepo = new Mock<IMessageRepository>();
+        var statusRepo = new Mock<IMessageStatusRepository>();
+        var userShadowRepo = new Mock<IUserShadowRepository>();
 
         var service = new ChatRoomService(
             repo.Object,
+            messageRepo.Object,
+            statusRepo.Object,
+            userShadowRepo.Object,
             new TemporaryChatOptions { DefaultTtlHours = 4 },
             new FakeDateTimeProvider(now));
 

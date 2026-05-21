@@ -324,3 +324,11 @@ D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\src\Communic
 D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\src\CommunicationService.Api\obj\Debug\net8.0\CommunicationService.Api.pdb
 D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\src\CommunicationService.Api\obj\Debug\net8.0\CommunicationService.Api.genruntimeconfig.cache
 D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\src\CommunicationService.Api\obj\Debug\net8.0\ref\CommunicationService.Api.dll
+D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\src\CommunicationService.Api\bin\Debug\net8.0\EventStore.Client.dll
+D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\src\CommunicationService.Api\bin\Debug\net8.0\EventStore.Client.Streams.dll
+D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\src\CommunicationService.Api\bin\Debug\net8.0\Google.Protobuf.dll
+D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\src\CommunicationService.Api\bin\Debug\net8.0\Grpc.Core.Api.dll
+D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\src\CommunicationService.Api\bin\Debug\net8.0\Grpc.Net.Client.dll
+D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\src\CommunicationService.Api\bin\Debug\net8.0\Grpc.Net.Common.dll
+D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\src\CommunicationService.Api\bin\Debug\net8.0\JetBrains.Annotations.dll
+D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\src\CommunicationService.Api\bin\Debug\net8.0\System.Linq.Async.dll

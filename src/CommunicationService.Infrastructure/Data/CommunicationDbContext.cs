@@ -13,6 +13,8 @@ public class CommunicationDbContext : DbContext
     public DbSet<ChatParticipant> ChatParticipants => Set<ChatParticipant>();
     public DbSet<Message> Messages => Set<Message>();
     public DbSet<MessageStatus> MessageStatuses => Set<MessageStatus>();
+    public DbSet<UserShadow> UserShadows => Set<UserShadow>();
+    public DbSet<EventStoreCheckpoint> EventStoreCheckpoints => Set<EventStoreCheckpoint>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -51,6 +53,7 @@ public class CommunicationDbContext : DbContext
             entity.Property(message => message.SenderId).IsRequired();
             entity.Property(message => message.Type).HasConversion<string>().IsRequired();
             entity.Property(message => message.Content).HasMaxLength(4096).IsRequired();
+            entity.Property(message => message.Metadata).HasColumnType("nvarchar(max)");
             entity.Property(message => message.CreatedAt).IsRequired();
             entity.HasIndex(message => new { message.ChatRoomId, message.CreatedAt });
             entity.HasIndex(message => message.SenderId);
@@ -69,6 +72,29 @@ public class CommunicationDbContext : DbContext
             entity.HasIndex(status => new { status.MessageId, status.RecipientId }).IsUnique();
             entity.HasIndex(status => status.RecipientId);
             entity.HasIndex(status => new { status.RecipientId, status.Status });
+        });
+
+        modelBuilder.Entity<UserShadow>(entity =>
+        {
+            entity.ToTable("users_shadow");
+            entity.HasKey(user => user.Id);
+            entity.Property(user => user.Email).HasMaxLength(256).IsRequired();
+            entity.Property(user => user.DisplayName).HasMaxLength(256);
+            entity.Property(user => user.AvatarUrl).HasMaxLength(1024);
+            entity.Property(user => user.FirebaseUid).HasMaxLength(128);
+            entity.Property(user => user.Role).HasMaxLength(64);
+            entity.Property(user => user.Status).HasMaxLength(64);
+            entity.Property(user => user.UpdatedAt).IsRequired();
+            entity.HasIndex(user => user.Email);
+            entity.HasIndex(user => user.FirebaseUid);
+        });
+
+        modelBuilder.Entity<EventStoreCheckpoint>(entity =>
+        {
+            entity.ToTable("eventstore_checkpoints");
+            entity.HasKey(checkpoint => checkpoint.Name);
+            entity.Property(checkpoint => checkpoint.Name).HasMaxLength(128).IsRequired();
+            entity.Property(checkpoint => checkpoint.UpdatedAt).IsRequired();
         });
     }
 }
