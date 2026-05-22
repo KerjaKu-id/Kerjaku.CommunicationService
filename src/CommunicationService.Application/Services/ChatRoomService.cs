@@ -147,6 +147,8 @@ public class ChatRoomService : IChatRoomService
             .Select(p => p.ShadowUserId)
             .FirstOrDefault(id => id != viewerId);
 
+        var userMap = await _userShadowRepository.GetByIdsAsync(new Guid[] { otherPartyId }, cancellationToken);
+        userMap.TryGetValue(otherPartyId, out var otherParty);
         UserShadow? otherParty = null;
         if (otherPartyId != Guid.Empty)
         {
