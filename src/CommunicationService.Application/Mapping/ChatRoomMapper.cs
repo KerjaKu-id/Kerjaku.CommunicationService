@@ -16,7 +16,7 @@ public static class ChatRoomMapper
             ExpiresAt = room.ExpiresAt,
             IsExpired = room.IsExpired,
             CreatedAt = room.CreatedAt,
-            Participants = room.Participants.Select(p => p.UserId).ToArray(),
+            Participants = room.Participants.Select(p => p.ShadowUserId).ToArray(),
             RoomType = summary?.RoomType ?? "customer_partner",
             Status = summary?.Status ?? status,
             OtherPartyId = summary?.OtherPartyId,

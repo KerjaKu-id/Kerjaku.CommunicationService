@@ -15,7 +15,7 @@ public class ChatRoomTests
         room.AddParticipant(userId, now.AddMinutes(1));
 
         Assert.Single(room.Participants);
-        Assert.Equal(userId, room.Participants.Single().UserId);
+        Assert.Equal(userId, room.Participants.Single().ShadowUserId);
     }
 
     [Fact]

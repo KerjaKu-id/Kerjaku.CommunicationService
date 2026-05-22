@@ -1,0 +1,61 @@
+# Ignore version control metadata and repo-only files
+.git/
+.gitignore
+.gitattributes
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Build artifacts and caches
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.tmp
+*.temp
+TestResults/
+
+# .NET NuGet/package cache
+.nuget/
+packages/
+
+# Docker and compose metadata
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Environment and secrets
+.env
+.env.*
+secrets/
+*.key
+*.pem
+*.crt
+*.cer
+
+# Test and documentation files not needed for image build
+tests/
+README.md
+*.md
+
+# Optional extras
+node_modules/
+.npm/
+.yarn/
+coverage/
+
+# Keep only service source and required config for build

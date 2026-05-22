@@ -66,14 +66,14 @@ public class MessageService : IMessageService
             throw new ResourceExpiredException("Chat room has expired.");
         }
 
-        if (!room.Participants.Any(p => p.UserId == request.SenderId))
+        if (!room.Participants.Any(p => p.ShadowUserId == request.SenderId))
         {
             throw new ValidationException("Sender is not a participant of the room.");
         }
 
         var recipientIds = room.Participants
-            .Where(p => p.UserId != request.SenderId)
-            .Select(p => p.UserId)
+            .Where(p => p.ShadowUserId != request.SenderId)
+            .Select(p => p.ShadowUserId)
             .ToArray();
 
         var metadataJson = request.Metadata is null
