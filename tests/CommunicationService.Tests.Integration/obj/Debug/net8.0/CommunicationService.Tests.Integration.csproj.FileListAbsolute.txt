@@ -932,3 +932,11 @@ D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\tests\Commun
 D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\tests\CommunicationService.Tests.Integration\obj\Debug\net8.0\Communic.F7EF8521.Up2Date
 D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\tests\CommunicationService.Tests.Integration\obj\Debug\net8.0\CommunicationService.Tests.Integration.genruntimeconfig.cache
 D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\tests\CommunicationService.Tests.Integration\obj\Debug\net8.0\ref\CommunicationService.Tests.Integration.dll
+D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\tests\CommunicationService.Tests.Integration\bin\Debug\net8.0\EventStore.Client.dll
+D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\tests\CommunicationService.Tests.Integration\bin\Debug\net8.0\EventStore.Client.Streams.dll
+D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\tests\CommunicationService.Tests.Integration\bin\Debug\net8.0\Google.Protobuf.dll
+D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\tests\CommunicationService.Tests.Integration\bin\Debug\net8.0\Grpc.Core.Api.dll
+D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\tests\CommunicationService.Tests.Integration\bin\Debug\net8.0\Grpc.Net.Client.dll
+D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\tests\CommunicationService.Tests.Integration\bin\Debug\net8.0\Grpc.Net.Common.dll
+D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\tests\CommunicationService.Tests.Integration\bin\Debug\net8.0\JetBrains.Annotations.dll
+D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\tests\CommunicationService.Tests.Integration\bin\Debug\net8.0\System.Linq.Async.dll

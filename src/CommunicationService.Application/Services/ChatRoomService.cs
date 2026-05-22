@@ -144,7 +144,7 @@ public class ChatRoomService : IChatRoomService
     private async Task<ChatRoomSummary> BuildSummaryAsync(ChatRoom room, Guid viewerId, CancellationToken cancellationToken)
     {
         var otherPartyId = room.Participants
-            .Select(p => p.UserId)
+            .Select(p => p.ShadowUserId)
             .FirstOrDefault(id => id != viewerId);
 
         var userMap = await _userShadowRepository.GetByIdsAsync(new[] { otherPartyId }, cancellationToken);
