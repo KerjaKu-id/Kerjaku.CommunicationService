@@ -32,7 +32,7 @@ public class ChatRoomRepository : IChatRoomRepository
         return await _dbContext.ChatRooms
             .AsNoTracking()
             .Include(room => room.Participants)
-            .Where(room => room.Participants.Any(p => p.UserId == userId))
+            .Where(room => room.Participants.Any(p => p.ShadowUserId == userId))
             .OrderByDescending(room => room.CreatedAt)
             .ToListAsync(cancellationToken);
     }

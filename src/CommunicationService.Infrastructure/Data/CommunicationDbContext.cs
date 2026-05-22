@@ -40,10 +40,10 @@ public class CommunicationDbContext : DbContext
         {
             entity.ToTable("chat_participants");
             entity.HasKey(participant => participant.Id);
-            entity.Property(participant => participant.UserId).IsRequired();
+            entity.Property(participant => participant.ShadowUserId).IsRequired();
             entity.Property(participant => participant.JoinedAt).IsRequired();
-            entity.HasIndex(participant => new { participant.ChatRoomId, participant.UserId }).IsUnique();
-            entity.HasIndex(participant => participant.UserId);
+            entity.HasIndex(participant => new { participant.ChatRoomId, participant.ShadowUserId }).IsUnique();
+            entity.HasIndex(participant => participant.ShadowUserId);
         });
 
         modelBuilder.Entity<Message>(entity =>

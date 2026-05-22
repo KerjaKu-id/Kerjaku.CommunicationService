@@ -144,10 +144,10 @@ public class ChatRoomService : IChatRoomService
     private async Task<ChatRoomSummary> BuildSummaryAsync(ChatRoom room, Guid viewerId, CancellationToken cancellationToken)
     {
         var otherPartyId = room.Participants
-            .Select(p => p.UserId)
+            .Select(p => p.ShadowUserId)
             .FirstOrDefault(id => id != viewerId);
 
-        var userMap = await _userShadowRepository.GetByIdsAsync(new[] { otherPartyId }, cancellationToken);
+        var userMap = await _userShadowRepository.GetByIdsAsync(new Guid[] { otherPartyId }, cancellationToken);
         userMap.TryGetValue(otherPartyId, out var otherParty);
 
         var lastMessage = await _messageRepository.GetLatestByRoomIdAsync(room.Id, cancellationToken);
