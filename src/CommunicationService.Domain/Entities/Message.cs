@@ -97,7 +97,7 @@ public class Message
     /// The user who sent this message.
     /// Loaded from ShadowUser to show display name, avatar, role.
     /// </summary>
-    public ShadowUser Sender { get; private set; } = null!;
+    public UserShadow Sender { get; private set; } = null!;
     
     /// <summary>
     /// Delivery status per recipient.

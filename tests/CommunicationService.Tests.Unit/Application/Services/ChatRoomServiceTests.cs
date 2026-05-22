@@ -162,4 +162,47 @@ public class ChatRoomServiceTests
 
         await Assert.ThrowsAsync<ResourceExpiredException>(() => service.GetRoomAsync(Guid.NewGuid(), CancellationToken.None));
     }
+
+    [Fact]
+    public async Task GetRoomsForUserAsync_ReturnsRooms_WhenRoomHasNoShadowUserData()
+    {
+        var now = new DateTimeOffset(2026, 4, 30, 12, 0, 0, TimeSpan.Zero);
+        var viewerId = Guid.NewGuid();
+        var otherId = Guid.NewGuid();
+        var room = new ChatRoom(false, null, now);
+        room.AddParticipant(viewerId, now);
+        room.AddParticipant(otherId, now);
+
+        var repo = new Mock<IChatRoomRepository>();
+        repo.Setup(r => r.GetByParticipantAsync(viewerId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new[] { room });
+
+        var messageRepo = new Mock<IMessageRepository>();
+        messageRepo.Setup(r => r.GetLatestByRoomIdAsync(room.Id, It.IsAny<CancellationToken>()))
+            .ReturnsAsync((Message?)null);
+
+        var statusRepo = new Mock<IMessageStatusRepository>();
+        statusRepo.Setup(r => r.CountUnreadByRoomAsync(room.Id, viewerId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(0);
+
+        var userShadowRepo = new Mock<IUserShadowRepository>();
+        userShadowRepo.Setup(r => r.GetByIdsAsync(It.IsAny<IEnumerable<Guid>>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Dictionary<Guid, UserShadow>());
+
+        var service = new ChatRoomService(
+            repo.Object,
+            messageRepo.Object,
+            statusRepo.Object,
+            userShadowRepo.Object,
+            new TemporaryChatOptions { DefaultTtlHours = 4 },
+            new FakeDateTimeProvider(now));
+
+        var rooms = await service.GetRoomsForUserAsync(viewerId, CancellationToken.None);
+
+        Assert.Single(rooms);
+        Assert.Equal(room.Id, rooms.Single().Id);
+        Assert.Null(rooms.Single().OtherPartyId);
+        Assert.Null(rooms.Single().OtherPartyName);
+        Assert.Equal(0, rooms.Single().UnreadCount);
+    }
 }

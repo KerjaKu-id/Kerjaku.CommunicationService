@@ -1,0 +1,15 @@
+﻿[
+    {
+        "eventId":  "8ac903fc-3ea0-4525-a564-222c5290dee9",
+        "eventType":  "UserRegisteredEvent",
+        "data":  {
+                     "FirebaseUid":  "fid-8ac903fc-3ea0-4525-a564-222c5290dee9",
+                     "OccurredAt":  "2026-05-22T22:50:22.9499444+07:00",
+                     "Role":  2,
+                     "Email":  "e2e+8ac903fc@example.com",
+                     "UserId":  "8ac903fc-3ea0-4525-a564-222c5290dee9",
+                     "Status":  1
+                 },
+        "metadata":  null
+    }
+]

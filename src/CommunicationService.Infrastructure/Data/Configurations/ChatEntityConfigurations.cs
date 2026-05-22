@@ -35,9 +35,9 @@ namespace CommunicationService.Infrastructure.Data.Configurations;
 /// - Role stored as int (enum mapping)
 /// - No cascade delete for ShadowUser (messages/participations kept for audit)
 /// </summary>
-public class ShadowUserConfiguration : IEntityTypeConfiguration<ShadowUser>
+public class ShadowUserConfiguration : IEntityTypeConfiguration<UserShadow>
 {
-    public void Configure(EntityTypeBuilder<ShadowUser> builder)
+    public void Configure(EntityTypeBuilder<UserShadow> builder)
     {
         builder.HasKey(u => u.Id);
 
@@ -46,18 +46,17 @@ public class ShadowUserConfiguration : IEntityTypeConfiguration<ShadowUser>
             .HasMaxLength(255);
 
         builder.Property(u => u.DisplayName)
-            .IsRequired()
             .HasMaxLength(255);
 
         builder.Property(u => u.AvatarUrl)
             .HasMaxLength(2048); // URL length limit
 
+        // Role is stored as string in users_shadow table
         builder.Property(u => u.Role)
-            .HasConversion<int>() // Store enum as int
-            .HasDefaultValue(UserRole.Customer);
+            .HasMaxLength(64);
 
-        builder.Property(u => u.CreatedAt)
-            .HasDefaultValueSql("GETUTCDATE()");
+        builder.Property(u => u.UpdatedAt)
+            .IsRequired();
 
         // ─── Indexes ─────────────────────────────────────────────────
         builder.HasIndex(u => u.Email)
@@ -67,21 +66,8 @@ public class ShadowUserConfiguration : IEntityTypeConfiguration<ShadowUser>
         builder.HasIndex(u => u.Role)
             .HasDatabaseName("IX_ShadowUsers_Role");
 
-        builder.HasIndex(u => u.CreatedAt)
-            .HasDatabaseName("IX_ShadowUsers_CreatedAt");
-
-        // ─── Relationships ───────────────────────────────────────────
-        // One-to-Many: ShadowUser -> Messages
-        builder.HasMany(u => u.SentMessages)
-            .WithOne(m => m.Sender)
-            .HasForeignKey(m => m.SenderId)
-            .OnDelete(DeleteBehavior.Restrict); // Keep messages for audit trail
-
-        // One-to-Many: ShadowUser -> ChatParticipants
-        builder.HasMany(u => u.Participations)
-            .WithOne(p => p.ShadowUser)
-            .HasForeignKey(p => p.ShadowUserId)
-            .OnDelete(DeleteBehavior.Restrict); // Keep participation records
+        builder.HasIndex(u => u.UpdatedAt)
+            .HasDatabaseName("IX_ShadowUsers_UpdatedAt");
     }
 }
 

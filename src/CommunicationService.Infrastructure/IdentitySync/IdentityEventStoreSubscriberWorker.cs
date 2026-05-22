@@ -37,6 +37,7 @@ public sealed class IdentityEventStoreSubscriberWorker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        _logger.LogInformation("IdentityEventStoreSubscriberWorker started");
         while (!stoppingToken.IsCancellationRequested)
         {
             try
@@ -45,6 +46,8 @@ public sealed class IdentityEventStoreSubscriberWorker : BackgroundService
                 var startPosition = checkpoint >= 0
                     ? StreamPosition.FromInt64(checkpoint + 1)
                     : StreamPosition.Start;
+
+                _logger.LogInformation("Subscribing to EventStore category stream {Stream} starting at position {Position}", CategoryStream, startPosition);
 
                 bool hasEvents = false;
 
@@ -57,13 +60,30 @@ public sealed class IdentityEventStoreSubscriberWorker : BackgroundService
                         resolveLinkTos: true,
                         cancellationToken: stoppingToken);
 
+                    _logger.LogInformation("Connected to EventStore stream {Stream}, reading events...", CategoryStream);
                     await foreach (var resolvedEvent in events)
                     {
                         hasEvents = true;
-                        var eventNumber = (long)resolvedEvent.Event.EventNumber.ToUInt64();
+                        // Use the original event number (position in the category stream) for checkpointing.
+                        var eventNumber = (long)resolvedEvent.OriginalEventNumber.ToUInt64();
                         if (eventNumber <= checkpoint)
                         {
                             continue;
+                        }
+
+                        // Log raw event metadata before any filtering
+                        try
+                        {
+                            var rawJson = System.Text.Encoding.UTF8.GetString(resolvedEvent.Event.Data.Span);
+                            _logger.LogInformation("Raw event: Stream={StreamId} Type={EventType} Number={EventNumber} Payload={Payload}",
+                                resolvedEvent.Event.EventStreamId,
+                                resolvedEvent.Event.EventType,
+                                eventNumber,
+                                rawJson.Length > 200 ? rawJson[..200] + "..." : rawJson);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogWarning(ex, "Failed to read raw event payload for event {EventId}", resolvedEvent.Event.EventId);
                         }
 
                         await ApplyEventAsync(resolvedEvent.Event.EventType, resolvedEvent.Event.Data, stoppingToken);
@@ -95,55 +115,113 @@ public sealed class IdentityEventStoreSubscriberWorker : BackgroundService
 
     private async Task ApplyEventAsync(string eventType, ReadOnlyMemory<byte> data, CancellationToken cancellationToken)
     {
-        var change = TryMapEvent(eventType, data);
-        if (change == null)
+        // Attempt to map/deserialize the event; log when unsupported or deserialization fails.
+        IdentityUserChange? change;
+        try
         {
+            change = TryMapEvent(eventType, data);
+        }
+        catch (Exception ex)
+        {
+            var raw = string.Empty;
+            try { raw = System.Text.Encoding.UTF8.GetString(data.Span); } catch { }
+            _logger.LogError(ex, "Failed to deserialize event type {EventType}. Raw: {Raw}", eventType, raw.Length > 500 ? raw[..500] + "..." : raw);
             return;
         }
 
-        using var scope = _scopeFactory.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<CommunicationDbContext>();
-
-        var user = await dbContext.UserShadows
-            .FirstOrDefaultAsync(u => u.Id == change.UserId, cancellationToken);
-
-        if (user == null)
+        if (change == null)
         {
-            user = new UserShadow(
-                change.UserId,
-                change.Email ?? string.Empty,
-                change.DisplayName,
-                change.AvatarUrl,
-                change.FirebaseUid,
-                change.Role,
-                change.Status,
-                change.OccurredAt);
-            dbContext.UserShadows.Add(user);
-        }
-        else
-        {
-            if (!string.IsNullOrWhiteSpace(change.Email))
-            {
-                user.UpdateEmail(change.Email, change.OccurredAt);
-            }
-
-            if (!string.IsNullOrWhiteSpace(change.DisplayName) || !string.IsNullOrWhiteSpace(change.AvatarUrl))
-            {
-                user.UpdateProfile(change.DisplayName, change.AvatarUrl, change.OccurredAt);
-            }
-
-            if (!string.IsNullOrWhiteSpace(change.Role))
-            {
-                user.UpdateRole(change.Role, change.OccurredAt);
-            }
-
-            if (!string.IsNullOrWhiteSpace(change.Status))
-            {
-                user.UpdateStatus(change.Status, change.OccurredAt);
-            }
+            var raw = string.Empty;
+            try { raw = System.Text.Encoding.UTF8.GetString(data.Span); } catch { }
+            _logger.LogInformation("Skipping unsupported event type: {EventType}. RawPayload={Payload}", eventType, raw.Length > 200 ? raw[..200] + "..." : raw);
+            return;
         }
 
-        await dbContext.SaveChangesAsync(cancellationToken);
+        // FIX: Use a dedicated scope for UserShadow upsert.
+        // This scope is disposed before room creation, ensuring a clean change tracker.
+        bool userCreated;
+        using (var userScope = _scopeFactory.CreateScope())
+        {
+            var dbContext = userScope.ServiceProvider.GetRequiredService<CommunicationDbContext>();
+
+            var user = await dbContext.UserShadows
+                .FirstOrDefaultAsync(u => u.Id == change.UserId, cancellationToken);
+
+            userCreated = false;
+            if (user == null)
+            {
+                user = new UserShadow(
+                    change.UserId,
+                    change.Email ?? string.Empty,
+                    change.DisplayName,
+                    change.AvatarUrl,
+                    change.FirebaseUid,
+                    change.Role,
+                    change.Status,
+                    change.OccurredAt);
+                dbContext.UserShadows.Add(user);
+                userCreated = true;
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(change.Email))
+                {
+                    user.UpdateEmail(change.Email, change.OccurredAt);
+                }
+
+                if (!string.IsNullOrWhiteSpace(change.DisplayName) || !string.IsNullOrWhiteSpace(change.AvatarUrl))
+                {
+                    user.UpdateProfile(change.DisplayName, change.AvatarUrl, change.OccurredAt);
+                }
+
+                if (!string.IsNullOrWhiteSpace(change.Role))
+                {
+                    user.UpdateRole(change.Role, change.OccurredAt);
+                }
+
+                if (!string.IsNullOrWhiteSpace(change.Status))
+                {
+                    user.UpdateStatus(change.Status, change.OccurredAt);
+                }
+            }
+
+            if (userCreated)
+            {
+                _logger.LogInformation("Created UserShadow for {UserId} (Email={Email}, Role={Role})", change.UserId, change.Email, change.Role);
+                _logger.LogInformation("Saving new UserShadow to database for {UserId}", change.UserId);
+                try
+                {
+                    await dbContext.SaveChangesAsync(cancellationToken);
+                    _logger.LogInformation("Saved UserShadow for {UserId} successfully", change.UserId);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to save new UserShadow for {UserId}. InnerException: {Inner}", change.UserId, ex.InnerException?.Message);
+                    return;
+                }
+            }
+            else
+            {
+                await dbContext.SaveChangesAsync(cancellationToken);
+            }
+        }
+        // userScope is now disposed — change tracker from UserShadow save is gone.
+
+        // FIX: Room creation uses a FRESH scope, completely separate from UserShadow scope.
+        // This eliminates any EF change tracker state pollution that could cause FK order issues.
+        if (userCreated && IsUserRegistrationEvent(eventType))
+        {
+            _logger.LogInformation("Received UserRegistered event for {UserId}, starting room creation flow", change.UserId);
+            try
+            {
+                await EnsureCustomerServiceRoomAsync(change.UserId, change.OccurredAt, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unhandled error during EnsureCustomerServiceRoomAsync for {UserId}. StackTrace: {StackTrace}", change.UserId, ex.StackTrace);
+            }
+            _logger.LogInformation("Finished room creation attempt for {UserId}", change.UserId);
+        }
     }
 
     private static IdentityUserChange? TryMapEvent(string eventType, ReadOnlyMemory<byte> data)
@@ -305,6 +383,127 @@ public sealed class IdentityEventStoreSubscriberWorker : BackgroundService
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
+    private static bool IsUserRegistrationEvent(string eventType)
+        => eventType == "UserRegisteredEvent" || eventType == "UserRegisteredEvent_v1";
+
+    /// <summary>
+    /// Creates its OWN fresh scope and dbContext — completely isolated from UserShadow save scope.
+    ///
+    /// FIX: Uses dbContext.ChatParticipants.AddRange() instead of room.AddParticipant() to avoid
+    /// EF Core re-marking the already-saved ChatRoom as Modified (which causes DbUpdateConcurrencyException
+    /// on the second SaveChangesAsync when EF Core batches an unexpected UPDATE for the room).
+    /// </summary>
+    private async Task EnsureCustomerServiceRoomAsync(
+        Guid userId,
+        DateTimeOffset createdAt,
+        CancellationToken cancellationToken)
+    {
+        // Fresh scope = clean change tracker, no leftover tracked entities
+        using var scope = _scopeFactory.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<CommunicationDbContext>();
+
+        try
+        {
+            // Step 1: Verify UserShadow actually exists in DB (sanity check)
+            _logger.LogInformation("[RoomCreate] Step 1: Verifying UserShadow exists for UserId={UserId}", userId);
+            var shadowExists = await dbContext.UserShadows
+                .AnyAsync(u => u.Id == userId, cancellationToken);
+
+            if (!shadowExists)
+            {
+                _logger.LogError("[RoomCreate] UserShadow for {UserId} does NOT exist — aborting.", userId);
+                return;
+            }
+
+            _logger.LogInformation("[RoomCreate] UserShadow confirmed for {UserId}", userId);
+
+            // Step 2: Check for existing customer service room for this user (idempotency guard)
+            _logger.LogInformation("[RoomCreate] Step 2: Checking existing room for UserId={UserId}", userId);
+            var existingRoomCount = await dbContext.ChatRooms
+                .Where(r => r.RoomType == ChatRoomType.CustomerService
+                         && r.Participants.Any(p => p.ShadowUserId == userId))
+                .CountAsync(cancellationToken);
+
+            _logger.LogInformation("[RoomCreate] Existing CustomerService room count for {UserId}: {Count}", userId, existingRoomCount);
+
+            if (existingRoomCount > 0)
+            {
+                _logger.LogInformation("[RoomCreate] Skipping — room already exists for {UserId}", userId);
+                return;
+            }
+
+            // Step 3: Create and save the room FIRST (separate save to get the PK committed)
+            _logger.LogInformation("[RoomCreate] Step 3: Creating ChatRoom for {UserId}", userId);
+            var room = new ChatRoom(ChatRoomType.CustomerService, orderId: null, expiresAt: null, createdAt);
+            var roomId = room.Id;
+
+            dbContext.ChatRooms.Add(room);
+
+            _logger.LogInformation("[RoomCreate] Step 4 (Room Save): Saving ChatRoom RoomId={RoomId}", roomId);
+            try
+            {
+                var savedRoomRows = await dbContext.SaveChangesAsync(cancellationToken);
+                _logger.LogInformation("[RoomCreate] ChatRoom saved. Rows={Count}, RoomId={RoomId}", savedRoomRows, roomId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "[RoomCreate] FAILED saving ChatRoom {RoomId}. {ExType}: {Msg} | Inner: {Inner}",
+                    roomId, ex.GetType().Name, ex.Message, ex.InnerException?.Message ?? "none");
+                throw;
+            }
+
+            // Step 5: Query support users (admin/cs) — empty list is fine, room is created either way
+            _logger.LogInformation("[RoomCreate] Step 5: Querying admin/cs users from users_shadow");
+            var supportUserIds = await dbContext.UserShadows
+                .Where(u => u.Role != null
+                    && (u.Role.ToLower() == "cs" || u.Role.ToLower() == "admin")
+                    && u.Id != userId)
+                .Select(u => u.Id)
+                .ToListAsync(cancellationToken);
+
+            _logger.LogInformation("[RoomCreate] Support users found: {Count}", supportUserIds.Count);
+
+            // Step 6: Build participant list and add DIRECTLY to DbSet.
+            // IMPORTANT: Do NOT use room.AddParticipant() here — that mutates the tracked ChatRoom's
+            // _participants backing field, which causes EF Core to mark ChatRoom as Modified and attempt
+            // an UPDATE on the already-committed row, resulting in DbUpdateConcurrencyException.
+            var participants = new List<ChatParticipant>
+            {
+                new ChatParticipant(roomId, userId, createdAt)
+            };
+
+            foreach (var supportUserId in supportUserIds)
+            {
+                _logger.LogInformation("[RoomCreate] Queuing support participant SupportUserId={SupportUserId} for RoomId={RoomId}", supportUserId, roomId);
+                participants.Add(new ChatParticipant(roomId, supportUserId, createdAt));
+            }
+
+            _logger.LogInformation("[RoomCreate] Step 7 (Participants Save): Inserting {Count} participants for RoomId={RoomId}", participants.Count, roomId);
+            dbContext.ChatParticipants.AddRange(participants);
+
+            try
+            {
+                var savedParticipantRows = await dbContext.SaveChangesAsync(cancellationToken);
+                _logger.LogInformation("[RoomCreate] ChatParticipants saved. Rows={Count}, RoomId={RoomId}", savedParticipantRows, roomId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "[RoomCreate] FAILED saving ChatParticipants for RoomId={RoomId}. {ExType}: {Msg} | Inner: {Inner}",
+                    roomId, ex.GetType().Name, ex.Message, ex.InnerException?.Message ?? "none");
+                throw;
+            }
+
+            _logger.LogInformation("[RoomCreate] ✅ Done. RoomId={RoomId} UserId={UserId} Participants={Count}",
+                roomId, userId, participants.Count);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex,
+                "[RoomCreate] Unexpected exception for UserId={UserId}. {ExType}: {Msg} | Inner: {Inner}",
+                userId, ex.GetType().Name, ex.Message, ex.InnerException?.Message ?? "none");
+        }
+    }
+
     private static string MapRole(int role)
     {
         return role switch
@@ -312,6 +511,7 @@ public sealed class IdentityEventStoreSubscriberWorker : BackgroundService
             1 => "admin",
             2 => "customer",
             3 => "partner",
+            4 => "cs",
             _ => "customer"
         };
     }

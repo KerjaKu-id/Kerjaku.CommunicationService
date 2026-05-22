@@ -78,7 +78,7 @@ public class ChatParticipant
     /// Reference to the ShadowUser (required).
     /// Loads user display name, role, avatar for UI rendering.
     /// </summary>
-    public ShadowUser ShadowUser { get; private set; } = null!;
+    public UserShadow ShadowUser { get; private set; } = null!;
 
     // ─── Business Methods ─────────────────────────────────────────
     /// <summary>Mark that user has read up to this point. Used to calculate unread count.</summary>

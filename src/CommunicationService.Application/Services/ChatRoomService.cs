@@ -147,16 +147,33 @@ public class ChatRoomService : IChatRoomService
             .Select(p => p.ShadowUserId)
             .FirstOrDefault(id => id != viewerId);
 
-        var userMap = await _userShadowRepository.GetByIdsAsync(new[] { otherPartyId }, cancellationToken);
-        userMap.TryGetValue(otherPartyId, out var otherParty);
+        UserShadow? otherParty = null;
+        if (otherPartyId != Guid.Empty)
+        {
+            var userMap = await _userShadowRepository.GetByIdsAsync(new[] { otherPartyId }, cancellationToken);
+            userMap.TryGetValue(otherPartyId, out otherParty);
+        }
 
         var lastMessage = await _messageRepository.GetLatestByRoomIdAsync(room.Id, cancellationToken);
         var unreadCount = await _messageStatusRepository.CountUnreadByRoomAsync(room.Id, viewerId, cancellationToken);
 
-        var status = room.HasExpired(_dateTimeProvider.UtcNow) ? "expired" : "active";
+        var status = room.Status switch
+        {
+            ChatRoomStatus.Archived => "archived",
+            ChatRoomStatus.Expired => "expired",
+            _ => room.HasExpired(_dateTimeProvider.UtcNow) ? "expired" : "active"
+        };
 
         return new ChatRoomSummary(
-            RoomType: "customer_partner",
+            RoomType: room.RoomType switch
+            {
+                ChatRoomType.CustomerService => "customer_service",
+                ChatRoomType.CustomerPartner => "customer_partner",
+                ChatRoomType.PartnerTeam => "partner_team",
+                ChatRoomType.AdminEscalation => "admin_escalation",
+                ChatRoomType.GroupChat => "group_chat",
+                _ => "customer_partner"
+            },
             Status: status,
             OtherPartyId: otherParty?.Id,
             OtherPartyName: otherParty?.DisplayName ?? otherParty?.Email,

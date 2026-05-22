@@ -44,6 +44,11 @@ public class CommunicationDbContext : DbContext
             entity.Property(participant => participant.JoinedAt).IsRequired();
             entity.HasIndex(participant => new { participant.ChatRoomId, participant.ShadowUserId }).IsUnique();
             entity.HasIndex(participant => participant.ShadowUserId);
+
+            entity.HasOne(participant => participant.ShadowUser)
+                .WithMany()
+                .HasForeignKey(participant => participant.ShadowUserId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Message>(entity =>
@@ -60,6 +65,11 @@ public class CommunicationDbContext : DbContext
             entity.HasMany(message => message.Statuses)
                 .WithOne(status => status.Message)
                 .HasForeignKey(status => status.MessageId);
+
+            entity.HasOne(message => message.Sender)
+                .WithMany()
+                .HasForeignKey(message => message.SenderId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<MessageStatus>(entity =>
