@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CommunicationService.Tests.Integration")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6cce78cd583e8a209cd6399158c225740cc3894f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5ad1cc213e42d866d30d17ff9f2585257ef38b52")]
 [assembly: System.Reflection.AssemblyProductAttribute("CommunicationService.Tests.Integration")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CommunicationService.Tests.Integration")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

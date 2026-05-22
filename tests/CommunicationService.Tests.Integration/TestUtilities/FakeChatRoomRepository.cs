@@ -34,6 +34,11 @@ public sealed class FakeChatRoomRepository : IChatRoomRepository
         return Task.FromResult(_expiredRooms);
     }
 
+    public Task<IReadOnlyList<ChatRoom>> GetByParticipantAsync(Guid userId, CancellationToken cancellationToken)
+    {
+        return Task.FromResult<IReadOnlyList<ChatRoom>>(new List<ChatRoom>());
+    }
+
     public Task SaveChangesAsync(CancellationToken cancellationToken)
     {
         SaveChangesCalls++;
