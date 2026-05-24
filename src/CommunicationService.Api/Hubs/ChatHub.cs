@@ -40,6 +40,20 @@ public class ChatHub : Hub
             .SendAsync("MessageRead", status, Context.ConnectionAborted);
     }
 
+    public async Task SendNegotiationOffer(Guid roomId, Guid userId, decimal price)
+    {
+        var room = await _chatRoomService.StartNegotiationAsync(roomId, userId, price, Context.ConnectionAborted);
+        await Clients.Group(RoomGroupName(roomId))
+            .SendAsync("RoomUpdated", room, Context.ConnectionAborted);
+    }
+
+    public async Task RespondToNegotiation(Guid roomId, Guid userId, bool accept)
+    {
+        var room = await _chatRoomService.RespondToNegotiationAsync(roomId, userId, accept, Context.ConnectionAborted);
+        await Clients.Group(RoomGroupName(roomId))
+            .SendAsync("RoomUpdated", room, Context.ConnectionAborted);
+    }
+
     private static string RoomGroupName(Guid roomId)
     {
         return $"room-{roomId}";

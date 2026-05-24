@@ -6,6 +6,8 @@ using CommunicationService.Application.Exceptions;
 using CommunicationService.Application.Mapping;
 using CommunicationService.Application.Options;
 using CommunicationService.Domain.Entities;
+using CommunicationService.Domain.Enums;
+using System.Text.Json;
 
 namespace CommunicationService.Application.Services;
 
@@ -147,12 +149,13 @@ public class ChatRoomService : IChatRoomService
             .Select(p => p.ShadowUserId)
             .FirstOrDefault(id => id != viewerId);
 
-        var userMap = await _userShadowRepository.GetByIdsAsync(new Guid[] { otherPartyId }, cancellationToken);
-        userMap.TryGetValue(otherPartyId, out var otherParty);
         UserShadow? otherParty = null;
         if (otherPartyId != Guid.Empty)
         {
-            var userMap = await _userShadowRepository.GetByIdsAsync(new[] { otherPartyId }, cancellationToken);
+            var userMap = await _userShadowRepository.GetByIdsAsync(
+                new[] { otherPartyId },
+                cancellationToken);
+
             userMap.TryGetValue(otherPartyId, out otherParty);
         }
 
@@ -184,5 +187,75 @@ public class ChatRoomService : IChatRoomService
             LastMessage: lastMessage?.Content,
             LastMessageAt: lastMessage?.CreatedAt,
             UnreadCount: unreadCount);
+    }
+
+    public async Task<ChatRoomDto> StartNegotiationAsync(Guid roomId, Guid userId, decimal price, CancellationToken cancellationToken)
+    {
+        var room = await _chatRoomRepository.GetByIdAsync(roomId, cancellationToken);
+        if (room == null) throw new NotFoundException("Chat room not found.");
+        
+        if (!room.Participants.Any(p => p.ShadowUserId == userId))
+            throw new ValidationException("User is not a participant.");
+
+        room.StartNegotiation();
+        await _chatRoomRepository.SaveChangesAsync(cancellationToken);
+
+        // Auto-inject offer message
+        var metadata = JsonSerializer.Serialize(new { offeredPrice = price, status = "pending" });
+        var message = new Message(roomId, userId, MessageType.NegotiationOffer, $"Offer: {price}", _dateTimeProvider.UtcNow, metadata);
+        await _messageRepository.AddAsync(message, cancellationToken);
+        await _messageRepository.SaveChangesAsync(cancellationToken);
+
+        var summary = await BuildSummaryAsync(room, userId, cancellationToken);
+        return ChatRoomMapper.ToDto(room, summary);
+    }
+
+    public async Task<ChatRoomDto> RespondToNegotiationAsync(Guid roomId, Guid userId, bool accept, CancellationToken cancellationToken)
+    {
+        var room = await _chatRoomRepository.GetByIdAsync(roomId, cancellationToken);
+        if (room == null) throw new NotFoundException("Chat room not found.");
+
+        if (!room.Participants.Any(p => p.ShadowUserId == userId))
+            throw new ValidationException("User is not a participant.");
+
+        if (!room.IsNegotiationActive)
+            throw new ValidationException("No active negotiation.");
+
+        // Find the latest pending offer message
+        var lastMessage = await _messageRepository.GetLatestByRoomIdAsync(roomId, cancellationToken);
+        decimal priceToAccept = 0;
+
+        if (lastMessage?.Type == MessageType.NegotiationOffer && lastMessage.Metadata != null)
+        {
+            var metaDict = JsonSerializer.Deserialize<Dictionary<string, object>>(lastMessage.Metadata);
+            if (metaDict != null && metaDict.TryGetValue("offeredPrice", out var priceObj))
+            {
+                if (priceObj is JsonElement el && el.TryGetDecimal(out var parsedPrice))
+                {
+                    priceToAccept = parsedPrice;
+                }
+            }
+        }
+
+        if (accept)
+        {
+            if (priceToAccept <= 0) throw new ValidationException("Could not determine price to accept.");
+            room.AcceptNegotiation(priceToAccept);
+        }
+        else
+        {
+            room.RejectNegotiation();
+        }
+
+        await _chatRoomRepository.SaveChangesAsync(cancellationToken);
+
+        // Add a system message about the response
+        var content = accept ? $"Penawaran disetujui: Rp {priceToAccept:N0}" : "Penawaran ditolak.";
+        var message = new Message(roomId, userId, MessageType.System, content, _dateTimeProvider.UtcNow);
+        await _messageRepository.AddAsync(message, cancellationToken);
+        await _messageRepository.SaveChangesAsync(cancellationToken);
+
+        var summary = await BuildSummaryAsync(room, userId, cancellationToken);
+        return ChatRoomMapper.ToDto(room, summary);
     }
 }

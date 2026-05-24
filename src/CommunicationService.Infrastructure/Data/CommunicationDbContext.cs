@@ -26,6 +26,9 @@ public class CommunicationDbContext : DbContext
             entity.Property(room => room.IsExpired).IsRequired();
             entity.Property(room => room.CreatedAt).IsRequired();
             entity.Property(room => room.ExpiresAt);
+            entity.Property(room => room.IsNegotiationActive).IsRequired().HasDefaultValue(false);
+            entity.Property(room => room.NegotiationStatus).HasConversion<string>().IsRequired().HasDefaultValue(CommunicationService.Domain.Enums.NegotiationStatus.None);
+            entity.Property(room => room.AgreedPrice).HasColumnType("decimal(18,2)");
             entity.HasIndex(room => room.ExpiresAt);
             entity.HasIndex(room => room.IsExpired);
             entity.HasMany(room => room.Participants)

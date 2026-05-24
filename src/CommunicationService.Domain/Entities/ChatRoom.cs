@@ -1,3 +1,5 @@
+using CommunicationService.Domain.Enums;
+
 namespace CommunicationService.Domain.Entities;
 
 /// <summary>
@@ -31,6 +33,8 @@ public class ChatRoom
         IsExpired = false;
         RoomType = ChatRoomType.CustomerPartner;
         Status = ChatRoomStatus.Active;
+        IsNegotiationActive = false;
+        NegotiationStatus = NegotiationStatus.None;
     }
 
     /// <summary>
@@ -50,6 +54,8 @@ public class ChatRoom
         CreatedAt = createdAt;
         IsExpired = false;
         Status = ChatRoomStatus.Active;
+        IsNegotiationActive = false;
+        NegotiationStatus = NegotiationStatus.None;
     }
 
     public Guid Id { get; private set; }
@@ -63,6 +69,11 @@ public class ChatRoom
     public ChatRoomType RoomType { get; private set; }
     public Guid? OrderId { get; private set; }
     public ChatRoomStatus Status { get; private set; }
+
+    // Negotiation state
+    public bool IsNegotiationActive { get; private set; }
+    public NegotiationStatus NegotiationStatus { get; private set; }
+    public decimal? AgreedPrice { get; private set; }
 
     public IReadOnlyCollection<ChatParticipant> Participants => _participants;
     public IReadOnlyCollection<Message> Messages => _messages;
@@ -92,6 +103,35 @@ public class ChatRoom
     public bool HasExpired(DateTimeOffset now)
     {
         return IsExpired || (ExpiresAt.HasValue && ExpiresAt.Value <= now);
+    }
+
+    // Negotiation methods
+    public void StartNegotiation()
+    {
+        IsNegotiationActive = true;
+        NegotiationStatus = NegotiationStatus.Pending;
+    }
+
+    public void AcceptNegotiation(decimal price)
+    {
+        IsNegotiationActive = false;
+        NegotiationStatus = NegotiationStatus.Accepted;
+        AgreedPrice = price;
+        UpdatedAt = DateTimeOffset.UtcNow;
+    }
+
+    public void RejectNegotiation()
+    {
+        IsNegotiationActive = false; // Customer can send another offer
+        NegotiationStatus = NegotiationStatus.Rejected;
+        UpdatedAt = DateTimeOffset.UtcNow;
+    }
+
+    public void CancelNegotiation()
+    {
+        IsNegotiationActive = false;
+        NegotiationStatus = NegotiationStatus.Cancelled;
+        UpdatedAt = DateTimeOffset.UtcNow;
     }
 }
 
