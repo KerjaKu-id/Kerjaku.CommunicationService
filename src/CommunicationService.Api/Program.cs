@@ -26,15 +26,17 @@ var app = builder.Build();
 
 // Apply pending EF Core migrations on startup.
 // This is critical when database is deleted/recreated via docker volumes.
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<CommunicationDbContext>();
-    
-    var maxRetries = 10;
-    var delay      = TimeSpan.FromSeconds(5);
+var maxRetries = 10;
+var delay      = TimeSpan.FromSeconds(5);
 
-    for (int i = 1; i <= maxRetries; i++)
+for (int i = 1; i <= maxRetries; i++)
+{
+    // Resolve a fresh DbContext scope per retry loop iteration.
+    // This prevents the DbContext Change Tracker from getting dirty on failed attempts
+    // which causes tracking conflict exceptions in subsequent seeding retries.
+    using (var scope = app.Services.CreateScope())
     {
+        var db = scope.ServiceProvider.GetRequiredService<CommunicationDbContext>();
         try
         {
             Console.WriteLine($"[Migration] CommunicationService: Attempt {i}/{maxRetries}...");
