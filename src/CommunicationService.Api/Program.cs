@@ -17,25 +17,12 @@ builder.Services.AddScoped<IMessageService, MessageService>();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowFrontend",
-        policy =>
-        {
-            policy
-                .WithOrigins(
-                    "http://localhost:3000",
-                    "http://127.0.0.1:3000"
-                )
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials();
-        });
-});
+// CORS is handled centrally by the Nginx API Gateway.
+// Do NOT add UseCors() here — it will cause duplicate Access-Control-Allow-Origin headers.
 
 var app = builder.Build();
 
-app.UseCors("AllowFrontend");
+// CORS handled by Nginx gateway — no UseCors() here.
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
