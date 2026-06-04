@@ -22,3 +22,15 @@ D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\src\Communic
 D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\src\CommunicationService.Domain\obj\Debug\net8.0\refint\CommunicationService.Domain.dll
 D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\src\CommunicationService.Domain\obj\Debug\net8.0\CommunicationService.Domain.pdb
 D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\src\CommunicationService.Domain\obj\Debug\net8.0\ref\CommunicationService.Domain.dll
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Domain\bin\Debug\net8.0\CommunicationService.Domain.deps.json
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Domain\bin\Debug\net8.0\CommunicationService.Domain.dll
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Domain\bin\Debug\net8.0\CommunicationService.Domain.pdb
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Domain\obj\Debug\net8.0\CommunicationService.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Domain\obj\Debug\net8.0\CommunicationService.Domain.AssemblyInfoInputs.cache
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Domain\obj\Debug\net8.0\CommunicationService.Domain.AssemblyInfo.cs
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Domain\obj\Debug\net8.0\CommunicationService.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Domain\obj\Debug\net8.0\CommunicationService.Domain.sourcelink.json
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Domain\obj\Debug\net8.0\CommunicationService.Domain.dll
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Domain\obj\Debug\net8.0\refint\CommunicationService.Domain.dll
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Domain\obj\Debug\net8.0\CommunicationService.Domain.pdb
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Domain\obj\Debug\net8.0\ref\CommunicationService.Domain.dll

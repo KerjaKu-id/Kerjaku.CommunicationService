@@ -15,6 +15,7 @@ public class CommunicationDbContext : DbContext
     public DbSet<MessageStatus> MessageStatuses => Set<MessageStatus>();
     public DbSet<UserShadow> UserShadows => Set<UserShadow>();
     public DbSet<EventStoreCheckpoint> EventStoreCheckpoints => Set<EventStoreCheckpoint>();
+    public DbSet<Notification> Notifications => Set<Notification>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -108,6 +109,21 @@ public class CommunicationDbContext : DbContext
             entity.HasKey(checkpoint => checkpoint.Name);
             entity.Property(checkpoint => checkpoint.Name).HasMaxLength(128).IsRequired();
             entity.Property(checkpoint => checkpoint.UpdatedAt).IsRequired();
+        });
+
+        modelBuilder.Entity<Notification>(entity =>
+        {
+            entity.ToTable("notifications");
+            entity.HasKey(n => n.Id);
+            entity.Property(n => n.UserId).IsRequired();
+            entity.Property(n => n.Title).HasMaxLength(256).IsRequired();
+            entity.Property(n => n.Content).HasMaxLength(2048).IsRequired();
+            entity.Property(n => n.Type).HasMaxLength(64).IsRequired();
+            entity.Property(n => n.ReferenceId).HasMaxLength(128);
+            entity.Property(n => n.IsRead).IsRequired();
+            entity.Property(n => n.CreatedAt).IsRequired();
+            entity.HasIndex(n => new { n.UserId, n.CreatedAt });
+            entity.HasIndex(n => new { n.UserId, n.IsRead });
         });
     }
 }

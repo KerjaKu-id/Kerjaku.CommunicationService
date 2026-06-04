@@ -1,6 +1,6 @@
 {
-  "CommunicationService.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Api",
-  "CommunicationService.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Application",
-  "CommunicationService.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain",
-  "CommunicationService.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Infrastructure"
+  "CommunicationService.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Api",
+  "CommunicationService.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Application",
+  "CommunicationService.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain",
+  "CommunicationService.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Infrastructure"
 }

@@ -49,6 +49,26 @@ public class ChatRoomService : IChatRoomService
             throw new ValidationException("Participant list must contain at least two unique users.");
         }
 
+        // ─── DUPLICATE ROOM PREVENTION ────────────────────────────────────────
+        // Check if an active, non-expired chat room with the exact same participants already exists.
+        // If it does, return the existing room to avoid creating redundant channels.
+        var existingRooms = await _chatRoomRepository.GetByParticipantAsync(participants[0], cancellationToken);
+        foreach (var existingRoom in existingRooms)
+        {
+            if (existingRoom.HasExpired(_dateTimeProvider.UtcNow))
+            {
+                continue;
+            }
+
+            var existingParticipantIds = existingRoom.Participants.Select(p => p.ShadowUserId).ToList();
+            if (existingParticipantIds.Count == participants.Length && 
+                existingParticipantIds.All(id => participants.Contains(id)))
+            {
+                var summary = await BuildSummaryAsync(existingRoom, participants[0], cancellationToken);
+                return ChatRoomMapper.ToDto(existingRoom, summary);
+            }
+        }
+
         var now = _dateTimeProvider.UtcNow;
         DateTimeOffset? expiresAt = null;
         if (request.IsTemporary)
@@ -169,6 +189,24 @@ public class ChatRoomService : IChatRoomService
             _ => room.HasExpired(_dateTimeProvider.UtcNow) ? "expired" : "active"
         };
 
+        // Determine a clean summary display text instead of raw URLs or internal tags
+        string? lastMessageSummary = lastMessage?.Content;
+        if (lastMessage != null)
+        {
+            if (lastMessage.Type == MessageType.Image)
+            {
+                lastMessageSummary = "📷 [Gambar]";
+            }
+            else if (lastMessage.Type == MessageType.InvoiceCard)
+            {
+                lastMessageSummary = "📄 [Invoice]";
+            }
+            else if (lastMessage.Type == MessageType.NegotiationOffer)
+            {
+                lastMessageSummary = "💰 [Penawaran]";
+            }
+        }
+
         return new ChatRoomSummary(
             RoomType: room.RoomType switch
             {
@@ -180,11 +218,11 @@ public class ChatRoomService : IChatRoomService
                 _ => "customer_partner"
             },
             Status: status,
-            OtherPartyId: otherParty?.Id,
-            OtherPartyName: otherParty?.DisplayName ?? otherParty?.Email,
+            OtherPartyId: otherParty?.Id ?? (otherPartyId != Guid.Empty ? otherPartyId : null),
+            OtherPartyName: otherParty?.FormattedName ?? otherParty?.Email,
             OtherPartyAvatar: otherParty?.AvatarUrl,
             OtherPartyEmail: otherParty?.Email,
-            LastMessage: lastMessage?.Content,
+            LastMessage: lastMessageSummary,
             LastMessageAt: lastMessage?.CreatedAt,
             UnreadCount: unreadCount);
     }

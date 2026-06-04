@@ -9,5 +9,6 @@ public interface IMessageRepository
     Task<Message?> GetByIdAsync(Guid messageId, CancellationToken cancellationToken);
     Task<Message?> GetLatestByRoomIdAsync(Guid roomId, CancellationToken cancellationToken);
     Task<PagedResult<Message>> GetByRoomIdPagedAsync(Guid roomId, int pageNumber, int pageSize, CancellationToken cancellationToken);
+    Task<Message?> GetByInvoiceIdAsync(Guid invoiceId, CancellationToken cancellationToken);
     Task SaveChangesAsync(CancellationToken cancellationToken);
 }

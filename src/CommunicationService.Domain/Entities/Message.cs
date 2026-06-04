@@ -140,4 +140,10 @@ public class Message
     {
         return !IsDeleted && (now - CreatedAt) < editWindow;
     }
+
+    /// <summary>Updates metadata for rich content (e.g. invoice payment status sync)</summary>
+    public void UpdateMetadata(string? metadata)
+    {
+        Metadata = metadata;
+    }
 }

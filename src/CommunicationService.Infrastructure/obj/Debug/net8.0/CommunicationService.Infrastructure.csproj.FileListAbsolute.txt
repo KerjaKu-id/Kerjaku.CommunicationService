@@ -38,3 +38,23 @@ D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\src\Communic
 D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\obj\Debug\net8.0\CommunicationService.Infrastructure.pdb
 D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\obj\Debug\net8.0\CommunicationService.Infrastructure.genruntimeconfig.cache
 D:\coding kocak\notepad++\magang\final\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\obj\Debug\net8.0\ref\CommunicationService.Infrastructure.dll
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\bin\Debug\net8.0\CommunicationService.Infrastructure.deps.json
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\bin\Debug\net8.0\CommunicationService.Infrastructure.runtimeconfig.json
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\bin\Debug\net8.0\CommunicationService.Infrastructure.dll
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\bin\Debug\net8.0\CommunicationService.Infrastructure.pdb
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\bin\Debug\net8.0\CommunicationService.Application.dll
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\bin\Debug\net8.0\CommunicationService.Domain.dll
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\bin\Debug\net8.0\CommunicationService.Domain.pdb
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\bin\Debug\net8.0\CommunicationService.Application.pdb
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\obj\Debug\net8.0\CommunicationService.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\obj\Debug\net8.0\CommunicationService.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\obj\Debug\net8.0\CommunicationService.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\obj\Debug\net8.0\CommunicationService.Infrastructure.AssemblyInfo.cs
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\obj\Debug\net8.0\CommunicationService.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\obj\Debug\net8.0\CommunicationService.Infrastructure.sourcelink.json
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\obj\Debug\net8.0\Communic.6DDDF1B4.Up2Date
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\obj\Debug\net8.0\CommunicationService.Infrastructure.dll
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\obj\Debug\net8.0\refint\CommunicationService.Infrastructure.dll
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\obj\Debug\net8.0\CommunicationService.Infrastructure.pdb
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\obj\Debug\net8.0\CommunicationService.Infrastructure.genruntimeconfig.cache
+C:\Users\Naksu\source\repos\kerjaku-id\Kerjaku.CommunicationService\src\CommunicationService.Infrastructure\obj\Debug\net8.0\ref\CommunicationService.Infrastructure.dll

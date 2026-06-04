@@ -1,40 +1,42 @@
 {
   "format": 1,
   "restore": {
-    "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Api\\CommunicationService.Api.csproj": {}
+    "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Api\\CommunicationService.Api.csproj": {}
   },
   "projects": {
-    "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Api\\CommunicationService.Api.csproj": {
+    "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Api\\CommunicationService.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Api\\CommunicationService.Api.csproj",
+        "projectUniqueName": "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Api\\CommunicationService.Api.csproj",
         "projectName": "CommunicationService.Api",
-        "projectPath": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Api\\CommunicationService.Api.csproj",
-        "packagesPath": "C:\\Users\\Narendra\\.nuget\\packages\\",
-        "outputPath": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Api\\obj\\",
+        "projectPath": "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Api\\CommunicationService.Api.csproj",
+        "packagesPath": "C:\\Users\\Naksu\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Narendra\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config"
+          "C:\\Users\\Naksu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://contoso.com/packages/": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Application\\CommunicationService.Application.csproj": {
-                "projectPath": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Application\\CommunicationService.Application.csproj"
+              "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Application\\CommunicationService.Application.csproj": {
+                "projectPath": "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Application\\CommunicationService.Application.csproj"
               },
-              "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Infrastructure\\CommunicationService.Infrastructure.csproj": {
-                "projectPath": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Infrastructure\\CommunicationService.Infrastructure.csproj"
+              "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Infrastructure\\CommunicationService.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Infrastructure\\CommunicationService.Infrastructure.csproj"
               }
             }
           }
@@ -49,7 +51,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -76,19 +78,19 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.24, 8.0.24]"
+              "version": "[8.0.26, 8.0.26]"
             },
             {
               "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[8.0.24, 8.0.24]"
+              "version": "[8.0.26, 8.0.26]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.24, 8.0.24]"
+              "version": "[8.0.26, 8.0.26]"
             },
             {
               "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[8.0.24, 8.0.24]"
+              "version": "[8.0.26, 8.0.26]"
             }
           ],
           "frameworkReferences": {
@@ -99,38 +101,40 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Application\\CommunicationService.Application.csproj": {
+    "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Application\\CommunicationService.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Application\\CommunicationService.Application.csproj",
+        "projectUniqueName": "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Application\\CommunicationService.Application.csproj",
         "projectName": "CommunicationService.Application",
-        "projectPath": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Application\\CommunicationService.Application.csproj",
-        "packagesPath": "C:\\Users\\Narendra\\.nuget\\packages\\",
-        "outputPath": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Application\\obj\\",
+        "projectPath": "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Application\\CommunicationService.Application.csproj",
+        "packagesPath": "C:\\Users\\Naksu\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Narendra\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config"
+          "C:\\Users\\Naksu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://contoso.com/packages/": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj": {
-                "projectPath": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj"
+              "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj": {
+                "projectPath": "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj"
               }
             }
           }
@@ -145,7 +149,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -164,15 +168,15 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.24, 8.0.24]"
+              "version": "[8.0.26, 8.0.26]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.24, 8.0.24]"
+              "version": "[8.0.26, 8.0.26]"
             },
             {
               "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[8.0.24, 8.0.24]"
+              "version": "[8.0.26, 8.0.26]"
             }
           ],
           "frameworkReferences": {
@@ -180,31 +184,33 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj": {
+    "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj",
         "projectName": "CommunicationService.Domain",
-        "projectPath": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj",
-        "packagesPath": "C:\\Users\\Narendra\\.nuget\\packages\\",
-        "outputPath": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\obj\\",
+        "projectPath": "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj",
+        "packagesPath": "C:\\Users\\Naksu\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Narendra\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config"
+          "C:\\Users\\Naksu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://contoso.com/packages/": {}
         },
         "frameworks": {
           "net8.0": {
@@ -222,7 +228,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -241,15 +247,15 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.24, 8.0.24]"
+              "version": "[8.0.26, 8.0.26]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.24, 8.0.24]"
+              "version": "[8.0.26, 8.0.26]"
             },
             {
               "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[8.0.24, 8.0.24]"
+              "version": "[8.0.26, 8.0.26]"
             }
           ],
           "frameworkReferences": {
@@ -257,41 +263,43 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Infrastructure\\CommunicationService.Infrastructure.csproj": {
+    "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Infrastructure\\CommunicationService.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Infrastructure\\CommunicationService.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Infrastructure\\CommunicationService.Infrastructure.csproj",
         "projectName": "CommunicationService.Infrastructure",
-        "projectPath": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Infrastructure\\CommunicationService.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\Narendra\\.nuget\\packages\\",
-        "outputPath": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Infrastructure\\obj\\",
+        "projectPath": "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Infrastructure\\CommunicationService.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\Naksu\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Narendra\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config"
+          "C:\\Users\\Naksu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://contoso.com/packages/": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Application\\CommunicationService.Application.csproj": {
-                "projectPath": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Application\\CommunicationService.Application.csproj"
+              "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Application\\CommunicationService.Application.csproj": {
+                "projectPath": "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Application\\CommunicationService.Application.csproj"
               },
-              "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj": {
-                "projectPath": "D:\\coding kocak\\notepad++\\magang\\final\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj"
+              "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj": {
+                "projectPath": "C:\\Users\\Naksu\\source\\repos\\kerjaku-id\\Kerjaku.CommunicationService\\src\\CommunicationService.Domain\\CommunicationService.Domain.csproj"
               }
             }
           }
@@ -306,7 +314,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -369,15 +377,15 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.24, 8.0.24]"
+              "version": "[8.0.26, 8.0.26]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.24, 8.0.24]"
+              "version": "[8.0.26, 8.0.26]"
             },
             {
               "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[8.0.24, 8.0.24]"
+              "version": "[8.0.26, 8.0.26]"
             }
           ],
           "frameworkReferences": {
@@ -385,7 +393,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

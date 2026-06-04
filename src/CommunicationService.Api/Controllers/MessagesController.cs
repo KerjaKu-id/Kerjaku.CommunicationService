@@ -71,4 +71,15 @@ public class MessagesController : ControllerBase
 
         return links;
     }
+
+    [HttpPatch("invoices/{invoiceId:guid}")]
+    public async Task<IActionResult> UpdateInvoiceStatus(Guid invoiceId, [FromBody] UpdateInvoiceStatusRequest request, CancellationToken cancellationToken)
+    {
+        // ─── UPDATE INVOICE STATUS METADATA ───────────────────────────────────
+        // Sync invoice status changes back to Communication Service metadata.
+        await _messageService.UpdateInvoiceStatusAsync(invoiceId, request.Status, cancellationToken);
+        return NoContent();
+    }
 }
+
+public record UpdateInvoiceStatusRequest(string Status);

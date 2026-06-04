@@ -24,6 +24,21 @@ public class ChatHub : Hub
         }
 
         await Groups.AddToGroupAsync(Context.ConnectionId, RoomGroupName(roomId));
+
+        // ─── AUTO-READ ON JOIN ────────────────────────────────────────────────
+        // Mark all messages in the room as read for the joining user.
+        await _messageService.MarkRoomMessagesAsReadAsync(roomId, userId, Context.ConnectionAborted);
+        await Clients.Group(RoomGroupName(roomId))
+            .SendAsync("MessagesReadBulk", new { roomId, readerId = userId }, Context.ConnectionAborted);
+    }
+
+    public async Task MarkRoomAsRead(Guid roomId, Guid userId)
+    {
+        // ─── EXPLICIT BULK READ RECEIPT ───────────────────────────────────────
+        // Mark all messages in the room as read for the specified user and notify group.
+        await _messageService.MarkRoomMessagesAsReadAsync(roomId, userId, Context.ConnectionAborted);
+        await Clients.Group(RoomGroupName(roomId))
+            .SendAsync("MessagesReadBulk", new { roomId, readerId = userId }, Context.ConnectionAborted);
     }
 
     public async Task SendMessage(SendMessageRequest request)

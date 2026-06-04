@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CommunicationService.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+101573ba3c6e8e54f67e142a135398b2945c51c6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d9d2c34c505dc6dff0ac7cad4fb9d149ad5f8bdb")]
 [assembly: System.Reflection.AssemblyProductAttribute("CommunicationService.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CommunicationService.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

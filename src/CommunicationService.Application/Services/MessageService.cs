@@ -95,7 +95,7 @@ public class MessageService : IMessageService
             message,
             MessageTypeMapper.ToApiValue(resolvedType),
             DeserializeMetadata(metadataJson),
-            sender?.DisplayName ?? sender?.Email,
+            sender?.FormattedName ?? sender?.Email,
             sender?.AvatarUrl);
         await _eventPublisher.PublishAsync(
             new MessageSentEvent(
@@ -151,7 +151,7 @@ public class MessageService : IMessageService
                     message,
                     MessageTypeMapper.ToApiValue(message.Type),
                     DeserializeMetadata(message.Metadata),
-                    sender?.DisplayName ?? sender?.Email,
+                    sender?.FormattedName ?? sender?.Email,
                     sender?.AvatarUrl);
             }).ToArray(),
             PageNumber = page.PageNumber,
@@ -200,6 +200,53 @@ public class MessageService : IMessageService
             cancellationToken);
 
         return dto;
+    }
+
+    public async Task MarkRoomMessagesAsReadAsync(Guid roomId, Guid recipientId, CancellationToken cancellationToken)
+    {
+        // ─── BULK READ RECEIPT TRIGGER ────────────────────────────────────────
+        // Mark all messages in the room as read for this user, then publish read event.
+        var room = await _chatRoomRepository.GetByIdAsync(roomId, cancellationToken);
+        if (room == null)
+        {
+            throw new NotFoundException("Chat room not found.");
+        }
+
+        var now = _dateTimeProvider.UtcNow;
+        await _messageStatusRepository.MarkRoomMessagesAsReadAsync(roomId, recipientId, now, cancellationToken);
+        await _messageStatusRepository.SaveChangesAsync(cancellationToken);
+
+        await _eventPublisher.PublishAsync(
+            new MessageReadEvent(Guid.Empty, roomId, recipientId, now),
+            cancellationToken);
+    }
+
+    public async Task UpdateInvoiceStatusAsync(Guid invoiceId, string status, CancellationToken cancellationToken)
+    {
+        // ─── SYNC INVOICE STATUS METADATA ─────────────────────────────────────
+        // Fetch invoice message, deserialize metadata JSON, update status, and save.
+        var message = await _messageRepository.GetByInvoiceIdAsync(invoiceId, cancellationToken);
+        if (message == null)
+        {
+            throw new NotFoundException($"Message for Invoice {invoiceId} not found.");
+        }
+
+        var metadataDict = new Dictionary<string, object>();
+        if (!string.IsNullOrWhiteSpace(message.Metadata))
+        {
+            var parsed = JsonSerializer.Deserialize<Dictionary<string, object>>(message.Metadata);
+            if (parsed != null)
+            {
+                metadataDict = parsed;
+            }
+        }
+
+        metadataDict["status"] = status;
+
+        var updatedMetadata = JsonSerializer.Serialize(metadataDict, new JsonSerializerOptions(JsonSerializerDefaults.Web));
+        message.UpdateMetadata(updatedMetadata);
+
+        await _messageRepository.SaveChangesAsync(cancellationToken);
     }
 
     private static object? DeserializeMetadata(string? metadataJson)

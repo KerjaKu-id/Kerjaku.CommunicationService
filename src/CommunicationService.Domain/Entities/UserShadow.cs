@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+
 namespace CommunicationService.Domain.Entities;
 
 public class UserShadow
@@ -34,6 +37,41 @@ public class UserShadow
     public string? Role { get; private set; }
     public string? Status { get; private set; }
     public DateTimeOffset UpdatedAt { get; private set; }
+
+    /// <summary>
+    /// Formatted name derived from Email local part if DisplayName is not set.
+    /// Delimiters like dots, underscores, and dashes are replaced with spaces,
+    /// and each word is capitalized for readability.
+    /// </summary>
+    public string FormattedName
+    {
+        get
+        {
+            if (!string.IsNullOrWhiteSpace(DisplayName))
+            {
+                return DisplayName;
+            }
+
+            if (string.IsNullOrWhiteSpace(Email))
+            {
+                return "User";
+            }
+
+            var index = Email.IndexOf('@');
+            if (index <= 0)
+            {
+                return Email;
+            }
+
+            var localPart = Email.Substring(0, index);
+            var parts = localPart.Split(new[] { '.', '_', '-' }, StringSplitOptions.RemoveEmptyEntries);
+            var capitalizedParts = parts.Select(p =>
+                string.IsNullOrEmpty(p) ? p : char.ToUpper(p[0]) + p.Substring(1).ToLower()
+            );
+
+            return string.Join(" ", capitalizedParts);
+        }
+    }
 
     public void UpdateProfile(string? displayName, string? avatarUrl, DateTimeOffset updatedAt)
     {

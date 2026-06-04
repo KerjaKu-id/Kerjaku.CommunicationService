@@ -8,5 +8,6 @@ public interface IMessageStatusRepository
     Task AddRangeAsync(IEnumerable<MessageStatus> statuses, CancellationToken cancellationToken);
     Task<MessageStatus?> GetAsync(Guid messageId, Guid recipientId, CancellationToken cancellationToken);
     Task<int> CountUnreadByRoomAsync(Guid roomId, Guid recipientId, CancellationToken cancellationToken);
+    Task MarkRoomMessagesAsReadAsync(Guid roomId, Guid recipientId, DateTimeOffset now, CancellationToken cancellationToken);
     Task SaveChangesAsync(CancellationToken cancellationToken);
 }

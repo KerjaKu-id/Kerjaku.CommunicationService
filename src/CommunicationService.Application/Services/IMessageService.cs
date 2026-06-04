@@ -8,4 +8,6 @@ public interface IMessageService
     Task<MessageDto> SendMessageAsync(SendMessageRequest request, CancellationToken cancellationToken);
     Task<PagedResult<MessageDto>> GetMessagesAsync(Guid roomId, int pageNumber, int pageSize, CancellationToken cancellationToken);
     Task<MessageStatusDto> MarkMessageReadAsync(Guid messageId, Guid readerId, CancellationToken cancellationToken);
+    Task MarkRoomMessagesAsReadAsync(Guid roomId, Guid recipientId, CancellationToken cancellationToken);
+    Task UpdateInvoiceStatusAsync(Guid invoiceId, string status, CancellationToken cancellationToken);
 }

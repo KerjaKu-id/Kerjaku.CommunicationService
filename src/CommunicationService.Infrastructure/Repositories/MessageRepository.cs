@@ -65,6 +65,18 @@ public class MessageRepository : IMessageRepository
         };
     }
 
+    public Task<Message?> GetByInvoiceIdAsync(Guid invoiceId, CancellationToken cancellationToken)
+    {
+        // ─── METADATA INVOICE LOOKUP ──────────────────────────────────────────
+        // Scan metadata column for matching invoiceId in JSON payload.
+        var invoiceStr = invoiceId.ToString();
+        return _dbContext.Messages
+            .FirstOrDefaultAsync(message => 
+                message.Metadata != null && 
+                message.Metadata.Contains(invoiceStr), 
+                cancellationToken);
+    }
+
     public Task SaveChangesAsync(CancellationToken cancellationToken)
     {
         return _dbContext.SaveChangesAsync(cancellationToken);
