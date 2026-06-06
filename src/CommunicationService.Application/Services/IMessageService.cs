@@ -10,4 +10,5 @@ public interface IMessageService
     Task<MessageStatusDto> MarkMessageReadAsync(Guid messageId, Guid readerId, CancellationToken cancellationToken);
     Task MarkRoomMessagesAsReadAsync(Guid roomId, Guid recipientId, CancellationToken cancellationToken);
     Task UpdateInvoiceStatusAsync(Guid invoiceId, string status, CancellationToken cancellationToken);
+    Task<MessageDto?> GetLatestMessageInRoomAsync(Guid roomId, CancellationToken cancellationToken);
 }

@@ -249,6 +249,20 @@ public class MessageService : IMessageService
         await _messageRepository.SaveChangesAsync(cancellationToken);
     }
 
+    public async Task<MessageDto?> GetLatestMessageInRoomAsync(Guid roomId, CancellationToken cancellationToken)
+    {
+        var message = await _messageRepository.GetLatestByRoomIdAsync(roomId, cancellationToken);
+        if (message == null) return null;
+
+        var sender = await _userShadowRepository.GetByIdAsync(message.SenderId, cancellationToken);
+        return MessageMapper.ToDto(
+            message,
+            MessageTypeMapper.ToApiValue(message.Type),
+            DeserializeMetadata(message.Metadata),
+            sender?.FormattedName ?? sender?.Email,
+            sender?.AvatarUrl);
+    }
+
     private static object? DeserializeMetadata(string? metadataJson)
     {
         if (string.IsNullOrWhiteSpace(metadataJson))

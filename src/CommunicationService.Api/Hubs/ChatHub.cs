@@ -60,6 +60,13 @@ public class ChatHub : Hub
         var room = await _chatRoomService.StartNegotiationAsync(roomId, userId, price, Context.ConnectionAborted);
         await Clients.Group(RoomGroupName(roomId))
             .SendAsync("RoomUpdated", room, Context.ConnectionAborted);
+
+        var latestMessage = await _messageService.GetLatestMessageInRoomAsync(roomId, Context.ConnectionAborted);
+        if (latestMessage != null)
+        {
+            await Clients.Group(RoomGroupName(roomId))
+                .SendAsync("ReceiveMessage", latestMessage, Context.ConnectionAborted);
+        }
     }
 
     public async Task RespondToNegotiation(Guid roomId, Guid userId, bool accept)
@@ -67,6 +74,13 @@ public class ChatHub : Hub
         var room = await _chatRoomService.RespondToNegotiationAsync(roomId, userId, accept, Context.ConnectionAborted);
         await Clients.Group(RoomGroupName(roomId))
             .SendAsync("RoomUpdated", room, Context.ConnectionAborted);
+
+        var latestMessage = await _messageService.GetLatestMessageInRoomAsync(roomId, Context.ConnectionAborted);
+        if (latestMessage != null)
+        {
+            await Clients.Group(RoomGroupName(roomId))
+                .SendAsync("ReceiveMessage", latestMessage, Context.ConnectionAborted);
+        }
     }
 
     private static string RoomGroupName(Guid roomId)

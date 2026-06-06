@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CommunicationService.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d9d2c34c505dc6dff0ac7cad4fb9d149ad5f8bdb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bc4b3126772b9feb6b615ccdf6d1d4d63c5d0ddf")]
 [assembly: System.Reflection.AssemblyProductAttribute("CommunicationService.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CommunicationService.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
